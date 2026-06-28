@@ -1,3 +1,4 @@
+import { getImageUrl } from "../../../utils/getImageUrl";
 import type { LandingSectionProps } from "./types";
 
 export function GallerySection({ section, images, theme }: LandingSectionProps) {
@@ -28,7 +29,7 @@ export function GallerySection({ section, images, theme }: LandingSectionProps) 
             <img
               key={image.id}
               className="aspect-[4/3] w-full rounded-lg object-cover"
-              src={image.url}
+              src={getImageUrl(image.url)}
               alt={image.alt}
             />
           ))}

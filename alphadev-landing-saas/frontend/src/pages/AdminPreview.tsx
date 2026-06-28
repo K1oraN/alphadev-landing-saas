@@ -8,6 +8,7 @@ import { getErrorMessage } from "../utils/getErrorMessage";
 const cards = [
   { title: "Informacoes principais", to: "/admin/landing" },
   { title: "Secoes", to: "/admin/sections" },
+  { title: "Gerenciar Imagens", to: "/admin/images" },
   { title: "Aparencia", to: "/admin/appearance" },
   { title: "WhatsApp", to: "/admin/whatsapp" },
   { title: "SEO", to: "/admin/seo" },

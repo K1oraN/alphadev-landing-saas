@@ -43,9 +43,7 @@ export async function getPublicLandingBySlug(slug: string) {
         },
       },
       images: {
-        orderBy: {
-          order: "asc",
-        },
+        orderBy: [{ type: "asc" }, { order: "asc" }],
         select: {
           id: true,
           sectionId: true,

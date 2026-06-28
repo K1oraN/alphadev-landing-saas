@@ -13,6 +13,7 @@ const navItems = [
   { label: "Visao Geral", to: "/admin" },
   { label: "Minha Landing", to: "/admin/landing" },
   { label: "Secoes", to: "/admin/sections" },
+  { label: "Imagens", to: "/admin/images" },
   { label: "Aparencia", to: "/admin/appearance" },
   { label: "WhatsApp", to: "/admin/whatsapp" },
   { label: "SEO", to: "/admin/seo" },

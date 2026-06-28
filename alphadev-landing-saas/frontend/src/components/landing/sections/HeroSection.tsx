@@ -1,4 +1,5 @@
 import { getWhatsAppUrl } from "../../../utils/landingContent";
+import { getImageUrl } from "../../../utils/getImageUrl";
 import type { LandingSectionProps } from "./types";
 
 export function HeroSection({ section, images, theme, whatsapp }: LandingSectionProps) {
@@ -56,7 +57,7 @@ export function HeroSection({ section, images, theme, whatsapp }: LandingSection
           <div className="rounded-lg border border-white/10 bg-white/5 p-3 shadow-2xl">
             <img
               className="aspect-[4/3] w-full rounded-lg object-cover"
-              src={heroImage.url}
+              src={getImageUrl(heroImage.url)}
               alt={heroImage.alt}
             />
           </div>

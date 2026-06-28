@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { adminImageRoutes } from "./adminImage.routes.js";
 import { adminLandingRoutes } from "./adminLanding.routes.js";
 import { authRoutes } from "./auth.routes.js";
 import { demoRoutes } from "./demo.routes.js";
@@ -12,3 +13,4 @@ routes.use(demoRoutes);
 routes.use(publicRoutes);
 routes.use(authRoutes);
 routes.use(adminLandingRoutes);
+routes.use(adminImageRoutes);

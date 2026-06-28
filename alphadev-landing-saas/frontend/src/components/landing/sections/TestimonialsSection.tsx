@@ -1,8 +1,10 @@
 import { splitLandingContent } from "../../../utils/landingContent";
+import { getImageUrl } from "../../../utils/getImageUrl";
 import type { LandingSectionProps } from "./types";
 
-export function TestimonialsSection({ section, theme }: LandingSectionProps) {
+export function TestimonialsSection({ section, images, theme }: LandingSectionProps) {
   const testimonials = splitLandingContent(section.content, "|");
+  const testimonialImages = images.filter((image) => image.type === "TESTIMONIAL");
 
   return (
     <section className="px-4 py-16 sm:px-6 lg:py-20">
@@ -24,6 +26,13 @@ export function TestimonialsSection({ section, theme }: LandingSectionProps) {
               key={testimonial}
               className="rounded-lg border border-white/10 bg-white/[0.04] p-6"
             >
+              {testimonialImages[index] ? (
+                <img
+                  className="mb-5 h-16 w-16 rounded-full object-cover"
+                  src={getImageUrl(testimonialImages[index].url)}
+                  alt={testimonialImages[index].alt}
+                />
+              ) : null}
               <p className="leading-7 opacity-80">"{testimonial}"</p>
               <strong className="mt-5 block">Cliente {index + 1}</strong>
             </article>

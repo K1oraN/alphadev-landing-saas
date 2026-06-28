@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export const AUTH_TOKEN_KEY = "alphadev_landing_token";
+export const API_BASE_URL = "http://localhost:3333";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: API_BASE_URL,
 });
 
 api.interceptors.request.use((config) => {

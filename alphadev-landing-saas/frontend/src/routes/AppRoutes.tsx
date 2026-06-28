@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AdminPreview } from "../pages/AdminPreview";
 import { AdminAppearance } from "../pages/admin/AdminAppearance";
+import { AdminImages } from "../pages/admin/AdminImages";
 import { AdminLandingMain } from "../pages/admin/AdminLandingMain";
 import { Login } from "../pages/admin/Login";
 import { AdminSections } from "../pages/admin/AdminSections";
@@ -21,6 +22,7 @@ export function AppRoutes() {
         <Route path="/admin" element={<AdminPreview />} />
         <Route path="/admin/landing" element={<AdminLandingMain />} />
         <Route path="/admin/sections" element={<AdminSections />} />
+        <Route path="/admin/images" element={<AdminImages />} />
         <Route path="/admin/appearance" element={<AdminAppearance />} />
         <Route path="/admin/whatsapp" element={<AdminWhatsapp />} />
         <Route path="/admin/seo" element={<AdminSeo />} />

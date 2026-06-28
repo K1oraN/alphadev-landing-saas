@@ -6,6 +6,7 @@ import { LandingSectionRenderer } from "../components/landing/LandingSectionRend
 import { WhatsAppFloatingButton } from "../components/landing/WhatsAppFloatingButton";
 import { getPublicLandingBySlug } from "../services/publicLandingService";
 import type { PublicLandingResponse } from "../types/landing";
+import { getImageUrl } from "../utils/getImageUrl";
 import { getLandingTheme, getLandingThemeStyle } from "../utils/landingTheme";
 
 const fallbackPublicLanding: PublicLandingResponse = {
@@ -249,6 +250,7 @@ export function PublicLanding() {
   const style = getLandingThemeStyle(theme);
   const title = data.seo?.metaTitle ?? data.landing.businessName;
   const description = data.seo?.metaDescription ?? data.landing.description;
+  const logo = data.images.find((image) => image.type === "LOGO");
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={style}>
@@ -268,6 +270,19 @@ export function PublicLanding() {
           Ambiente de desenvolvimento usando fallback mockado. Inicie o backend para
           carregar dados reais pelo slug.
         </div>
+      ) : null}
+
+      {logo ? (
+        <header className="border-b border-white/10 bg-black/25 px-4 py-4 sm:px-6">
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+            <img
+              className="max-h-14 max-w-44 object-contain"
+              src={getImageUrl(logo.url)}
+              alt={logo.alt}
+            />
+            <span className="text-sm font-semibold opacity-75">{data.landing.businessName}</span>
+          </div>
+        </header>
       ) : null}
 
       {data.sections.map((section) => (

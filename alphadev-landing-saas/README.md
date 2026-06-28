@@ -115,6 +115,7 @@ Rotas:
 - `http://localhost:5173/admin`
 - `http://localhost:5173/admin/landing`
 - `http://localhost:5173/admin/sections`
+- `http://localhost:5173/admin/images`
 - `http://localhost:5173/admin/appearance`
 - `http://localhost:5173/admin/whatsapp`
 - `http://localhost:5173/admin/seo`
@@ -173,6 +174,10 @@ POST   /api/admin/landing/sections
 PUT    /api/admin/landing/sections/:id
 DELETE /api/admin/landing/sections/:id
 PATCH  /api/admin/landing/sections/:id/toggle
+GET    /api/admin/images
+POST   /api/admin/images
+PATCH  /api/admin/images/:id
+DELETE /api/admin/images/:id
 ```
 
 Fluxo de teste da edicao:
@@ -183,6 +188,33 @@ Fluxo de teste da edicao:
 4. Entre com `admin@demo.com` e `123456`.
 5. Edite informacoes em `/admin/landing`, `/admin/appearance`, `/admin/sections`, `/admin/whatsapp` ou `/admin/seo`.
 6. Acesse `http://localhost:5173/site/barbearia-demo` ou o slug atualizado e confirme as mudancas.
+
+## Upload local de imagens
+
+Nesta etapa, o upload e local, apenas para desenvolvimento. Os arquivos enviados ficam em:
+
+```text
+backend/uploads/landings
+```
+
+E sao servidos publicamente pela API em:
+
+```text
+http://localhost:3333/uploads/landings/NOME_DO_ARQUIVO
+```
+
+Regras atuais:
+
+- Formatos aceitos: JPG, PNG e WEBP
+- Limite: 5MB por imagem
+- Campo do arquivo no multipart: `image`
+- Tipos: `LOGO`, `HERO`, `GALLERY`, `TESTIMONIAL`, `OTHER`
+- `LOGO` e `HERO` mantem apenas uma imagem por tipo
+- `GALLERY`, `TESTIMONIAL` e `OTHER` permitem varias imagens
+
+Arquivos enviados nao devem ir para o GitHub. O `.gitignore` ignora `backend/uploads/*`, mantendo apenas os `.gitkeep` das pastas.
+
+No futuro, esse storage local pode migrar para Cloudinary, S3 ou storage da hospedagem.
 
 ## Scripts do backend
 
@@ -304,6 +336,7 @@ Implementado:
 - Login admin em `/admin/login`
 - Painel admin protegido em `/admin`
 - Edicao admin de dados principais, tema, WhatsApp, SEO e secoes
+- Upload local e gerenciamento de imagens em `/admin/images`
 - Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
 - SEO basico no React com `react-helmet-async`
 - Botao flutuante de WhatsApp
@@ -312,7 +345,6 @@ Implementado:
 
 Ainda nao implementado nesta etapa:
 
-- Upload de imagens
 - Leads reais
 - Cadastro de novos usuarios
 - Recuperacao de senha
