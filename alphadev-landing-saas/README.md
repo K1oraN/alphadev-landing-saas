@@ -73,6 +73,8 @@ Confira se o `.env` ficou assim, ajustando usuario, senha, host ou porta se o se
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/alphadev_landing_saas?schema=public"
 PORT=3333
 NODE_ENV=development
+JWT_SECRET="alphadev_landing_saas_secret_dev"
+JWT_EXPIRES_IN="7d"
 ```
 
 Depois rode:
@@ -91,6 +93,8 @@ Rotas para testar:
 http://localhost:3333/health
 http://localhost:3333/api/demo/landing
 http://localhost:3333/api/public/landings/barbearia-demo
+POST http://localhost:3333/api/auth/login
+GET http://localhost:3333/api/auth/me
 ```
 
 ## Configurar o frontend
@@ -106,6 +110,7 @@ Rotas:
 - `http://localhost:5173/`
 - `http://localhost:5173/site/barbearia-demo`
 - `http://localhost:5173/site/demo`
+- `http://localhost:5173/admin/login`
 - `http://localhost:5173/admin`
 
 A rota publica principal e `/site/:slug`. Exemplo:
@@ -123,6 +128,29 @@ GET http://localhost:3333/api/public/landings/barbearia-demo
 A rota `/site/demo` continua funcionando por compatibilidade e redireciona para `/site/barbearia-demo`.
 
 Em ambiente de desenvolvimento, se a API estiver offline, a landing publica exibe um fallback mockado discreto. Se o backend responder 404, a tela mostra uma mensagem amigavel de landing indisponivel.
+
+## Login administrativo
+
+Depois de rodar o seed, use as credenciais demo:
+
+```text
+Email: admin@demo.com
+Senha: 123456
+```
+
+Fluxo:
+
+```text
+http://localhost:5173/admin/login
+```
+
+Ao autenticar, o usuario e redirecionado para:
+
+```text
+http://localhost:5173/admin
+```
+
+O painel `/admin` e protegido por token JWT salvo no `localStorage` com a chave `alphadev_landing_token`. As rotas publicas `/`, `/site/demo` e `/site/:slug` continuam livres.
 
 ## Scripts do backend
 
@@ -238,16 +266,20 @@ Implementado:
 - Rota `GET /health`
 - Rota `GET /api/demo/landing`
 - Rota publica `GET /api/public/landings/:slug`
+- Rota `POST /api/auth/login`
+- Rota protegida `GET /api/auth/me`
 - Landing publica dinamica em `/site/:slug`
+- Login admin em `/admin/login`
+- Painel admin protegido em `/admin`
 - Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
 - SEO basico no React com `react-helmet-async`
 - Botao flutuante de WhatsApp
 - Formulario visual de contato sem salvar leads ainda
+- Logout do painel administrativo
 
 Ainda nao implementado nesta etapa:
 
-- Autenticacao
-- Painel admin real
+- Edicao real de landing
 - CRUD
 - Upload de imagens
 - Dashboard completo

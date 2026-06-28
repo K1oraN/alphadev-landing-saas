@@ -21,6 +21,18 @@ const envSchema = z.object({
       1,
       "DATABASE_URL vazia. Preencha a conexao PostgreSQL no arquivo .env da pasta backend.",
     ),
+  JWT_SECRET: z
+    .string({
+      required_error:
+        "JWT_SECRET nao encontrada. Adicione JWT_SECRET ao .env baseado no .env.example.",
+    })
+    .min(16, "JWT_SECRET deve ter pelo menos 16 caracteres."),
+  JWT_EXPIRES_IN: z
+    .string({
+      required_error:
+        "JWT_EXPIRES_IN nao encontrada. Adicione JWT_EXPIRES_IN ao .env baseado no .env.example.",
+    })
+    .min(1, "JWT_EXPIRES_IN nao pode ficar vazia."),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
