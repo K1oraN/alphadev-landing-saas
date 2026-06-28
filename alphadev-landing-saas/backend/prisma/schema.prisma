@@ -6,3 +6,187 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  role         UserRole      @default(OWNER)
+  status       UserStatus    @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  landingPages LandingPage[]
+}
+
+model LandingPage {
+  id             String           @id @default(cuid())
+  ownerId        String
+  name           String
+  slug           String           @unique
+  businessName   String
+  description    String
+  status         LandingStatus    @default(DRAFT)
+  plan           LandingPlan      @default(BASIC)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  owner          User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  theme          LandingTheme?
+  sections       LandingSection[]
+  images         LandingImage[]
+  leads          Lead[]
+  whatsappConfig WhatsAppConfig?
+  seoConfig      SeoConfig?
+  subscription   Subscription?
+}
+
+model LandingTheme {
+  id              String      @id @default(cuid())
+  landingPageId   String      @unique
+  primaryColor    String
+  secondaryColor  String
+  backgroundColor String
+  textColor       String
+  buttonColor     String
+  buttonTextColor String
+  fontFamily      String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  landingPage     LandingPage @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+}
+
+model LandingSection {
+  id            String             @id @default(cuid())
+  landingPageId String
+  type          LandingSectionType
+  title         String
+  subtitle      String?
+  content       String?
+  buttonLabel   String?
+  buttonUrl     String?
+  order         Int
+  isActive      Boolean            @default(true)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  landingPage   LandingPage        @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+  images        LandingImage[]
+}
+
+model LandingImage {
+  id            String           @id @default(cuid())
+  landingPageId String
+  sectionId     String?
+  url           String
+  alt           String
+  type          LandingImageType
+  order         Int              @default(0)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  landingPage   LandingPage      @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+  section       LandingSection?  @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+}
+
+model Lead {
+  id            String      @id @default(cuid())
+  landingPageId String
+  name          String
+  email         String?
+  phone         String
+  message       String?
+  source        String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  createdAt     DateTime    @default(now())
+  landingPage   LandingPage @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+}
+
+model WhatsAppConfig {
+  id             String      @id @default(cuid())
+  landingPageId  String      @unique
+  phone          String
+  defaultMessage String
+  buttonLabel    String
+  isEnabled      Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  landingPage    LandingPage @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+}
+
+model SeoConfig {
+  id              String      @id @default(cuid())
+  landingPageId   String      @unique
+  metaTitle       String
+  metaDescription String
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  landingPage     LandingPage @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id            String             @id @default(cuid())
+  landingPageId String             @unique
+  status        SubscriptionStatus @default(ACTIVE)
+  startedAt     DateTime
+  dueDay        Int
+  lastPaymentAt DateTime?
+  nextPaymentAt DateTime?
+  blockedAt     DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  landingPage   LandingPage        @relation(fields: [landingPageId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+enum LandingStatus {
+  DRAFT
+  PUBLISHED
+  SUSPENDED
+  BLOCKED
+}
+
+enum LandingPlan {
+  BASIC
+  PRO
+  PREMIUM
+}
+
+enum LandingSectionType {
+  HERO
+  ABOUT
+  BENEFITS
+  TESTIMONIALS
+  GALLERY
+  CTA
+  FOOTER
+  CUSTOM
+}
+
+enum LandingImageType {
+  LOGO
+  HERO
+  GALLERY
+  TESTIMONIAL
+  OTHER
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  LATE
+  SUSPENDED
+  CANCELED
+}
