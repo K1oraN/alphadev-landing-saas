@@ -13,6 +13,7 @@ type LandingSectionRendererProps = {
   images: LandingImage[];
   theme: LandingTheme;
   whatsapp: WhatsAppConfig | null;
+  landingSlug: string;
 };
 
 export function LandingSectionRenderer(props: LandingSectionRendererProps) {

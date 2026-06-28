@@ -1,18 +1,59 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
+import { createLead } from "../../../services/publicLeadService";
 import { getWhatsAppUrl } from "../../../utils/landingContent";
 import type { LandingSectionProps } from "./types";
 
-export function CtaSection({ section, theme, whatsapp }: LandingSectionProps) {
-  const [message, setMessage] = useState("");
+const initialForm = {
+  name: "",
+  phone: "",
+  email: "",
+  message: "",
+  website: "",
+};
+
+export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSectionProps) {
+  const [searchParams] = useSearchParams();
+  const [form, setForm] = useState(initialForm);
+  const [feedback, setFeedback] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const whatsappUrl =
     section.buttonUrl ??
     (whatsapp ? getWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage) : "#");
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setMessage(
-      "Formulario visual nesta etapa. O salvamento de leads sera implementado na proxima etapa.",
-    );
+    setFeedback("");
+    setError("");
+
+    if (form.name.trim().length < 2 || form.phone.trim().length < 8) {
+      setError("Nao foi possivel enviar sua mensagem. Confira os dados e tente novamente.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await createLead(landingSlug, {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        message: form.message,
+        website: form.website,
+        source: "landing-form",
+        utmSource: searchParams.get("utm_source") ?? undefined,
+        utmMedium: searchParams.get("utm_medium") ?? undefined,
+        utmCampaign: searchParams.get("utm_campaign") ?? undefined,
+      });
+      setFeedback("Mensagem enviada com sucesso. Em breve entraremos em contato.");
+      setForm(initialForm);
+    } catch {
+      setError("Nao foi possivel enviar sua mensagem. Confira os dados e tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -49,34 +90,53 @@ export function CtaSection({ section, theme, whatsapp }: LandingSectionProps) {
         >
           <input
             className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            onChange={(event) => setForm({ ...form, name: event.target.value })}
             placeholder="Nome"
             type="text"
+            value={form.name}
           />
           <input
             className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            onChange={(event) => setForm({ ...form, phone: event.target.value })}
             placeholder="Telefone"
             type="tel"
+            value={form.phone}
           />
           <input
             className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            onChange={(event) => setForm({ ...form, email: event.target.value })}
             placeholder="E-mail"
             type="email"
+            value={form.email}
+          />
+          <input
+            aria-hidden="true"
+            autoComplete="off"
+            className="hidden"
+            onChange={(event) => setForm({ ...form, website: event.target.value })}
+            tabIndex={-1}
+            type="text"
+            value={form.website}
           />
           <textarea
             className="min-h-32 w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            onChange={(event) => setForm({ ...form, message: event.target.value })}
             placeholder="Mensagem"
+            value={form.message}
           />
           <button
-            className="w-full rounded-lg px-5 py-3 text-sm font-bold transition hover:brightness-110"
+            className="w-full rounded-lg px-5 py-3 text-sm font-bold transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={isSubmitting}
             style={{
               backgroundColor: theme.buttonColor,
               color: theme.buttonTextColor,
             }}
             type="submit"
           >
-            Enviar mensagem
+            {isSubmitting ? "Enviando..." : "Enviar mensagem"}
           </button>
-          {message ? <p className="text-sm opacity-75">{message}</p> : null}
+          {feedback ? <p className="text-sm text-green-200">{feedback}</p> : null}
+          {error ? <p className="text-sm text-red-200">{error}</p> : null}
         </form>
       </div>
     </section>

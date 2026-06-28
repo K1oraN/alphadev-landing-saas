@@ -14,6 +14,7 @@ const navItems = [
   { label: "Minha Landing", to: "/admin/landing" },
   { label: "Secoes", to: "/admin/sections" },
   { label: "Imagens", to: "/admin/images" },
+  { label: "Leads", to: "/admin/leads" },
   { label: "Aparencia", to: "/admin/appearance" },
   { label: "WhatsApp", to: "/admin/whatsapp" },
   { label: "SEO", to: "/admin/seo" },

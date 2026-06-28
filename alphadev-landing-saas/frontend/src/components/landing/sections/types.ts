@@ -10,4 +10,5 @@ export type LandingSectionProps = {
   images: LandingImage[];
   theme: LandingTheme;
   whatsapp: WhatsAppConfig | null;
+  landingSlug: string;
 };

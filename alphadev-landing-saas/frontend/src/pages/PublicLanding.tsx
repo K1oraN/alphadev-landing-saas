@@ -290,6 +290,7 @@ export function PublicLanding() {
           key={section.id}
           section={section}
           images={data.images}
+          landingSlug={data.landing.slug}
           theme={theme}
           whatsapp={data.whatsapp}
         />

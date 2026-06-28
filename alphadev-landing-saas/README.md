@@ -93,6 +93,7 @@ Rotas para testar:
 http://localhost:3333/health
 http://localhost:3333/api/demo/landing
 http://localhost:3333/api/public/landings/barbearia-demo
+POST http://localhost:3333/api/public/landings/barbearia-demo/leads
 POST http://localhost:3333/api/auth/login
 GET http://localhost:3333/api/auth/me
 GET http://localhost:3333/api/admin/landing/me
@@ -116,6 +117,7 @@ Rotas:
 - `http://localhost:5173/admin/landing`
 - `http://localhost:5173/admin/sections`
 - `http://localhost:5173/admin/images`
+- `http://localhost:5173/admin/leads`
 - `http://localhost:5173/admin/appearance`
 - `http://localhost:5173/admin/whatsapp`
 - `http://localhost:5173/admin/seo`
@@ -178,6 +180,9 @@ GET    /api/admin/images
 POST   /api/admin/images
 PATCH  /api/admin/images/:id
 DELETE /api/admin/images/:id
+GET    /api/admin/leads
+GET    /api/admin/leads/:id
+DELETE /api/admin/leads/:id
 ```
 
 Fluxo de teste da edicao:
@@ -188,6 +193,44 @@ Fluxo de teste da edicao:
 4. Entre com `admin@demo.com` e `123456`.
 5. Edite informacoes em `/admin/landing`, `/admin/appearance`, `/admin/sections`, `/admin/whatsapp` ou `/admin/seo`.
 6. Acesse `http://localhost:5173/site/barbearia-demo` ou o slug atualizado e confirme as mudancas.
+
+## Leads
+
+O formulario publico da landing salva leads reais no banco:
+
+```text
+POST /api/public/landings/:slug/leads
+```
+
+Campos obrigatorios:
+
+- `name`
+- `phone`
+
+Campos opcionais:
+
+- `email`
+- `message`
+- `source`
+- `utmSource`
+- `utmMedium`
+- `utmCampaign`
+- `website` como honeypot invisivel
+
+Protecoes:
+
+- Rate limit de 10 envios por IP a cada 15 minutos
+- Honeypot: se `website` vier preenchido, retorna sucesso sem salvar
+- Apenas landings `PUBLISHED` recebem leads
+
+Fluxo de teste:
+
+1. Acesse `http://localhost:5173/site/barbearia-demo`.
+2. Preencha o formulario de contato.
+3. Envie e confira a mensagem de sucesso.
+4. Entre no painel admin.
+5. Acesse `http://localhost:5173/admin/leads`.
+6. Confira o lead, abra os detalhes, chame no WhatsApp ou exclua.
 
 ## Upload local de imagens
 
@@ -337,6 +380,8 @@ Implementado:
 - Painel admin protegido em `/admin`
 - Edicao admin de dados principais, tema, WhatsApp, SEO e secoes
 - Upload local e gerenciamento de imagens em `/admin/images`
+- Formulario publico salvando leads reais
+- Listagem, detalhes e exclusao de leads em `/admin/leads`
 - Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
 - SEO basico no React com `react-helmet-async`
 - Botao flutuante de WhatsApp
@@ -345,7 +390,10 @@ Implementado:
 
 Ainda nao implementado nesta etapa:
 
-- Leads reais
+- Envio automatico de e-mail
+- Integracao real com WhatsApp API
+- Exportacao CSV
+- CRM avancado
 - Cadastro de novos usuarios
 - Recuperacao de senha
 - Sistema de pagamento

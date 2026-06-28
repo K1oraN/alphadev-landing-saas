@@ -11,6 +11,7 @@ const cards = [
   { title: "Gerenciar Imagens", to: "/admin/images" },
   { title: "Aparencia", to: "/admin/appearance" },
   { title: "WhatsApp", to: "/admin/whatsapp" },
+  { title: "Leads Recebidos", to: "/admin/leads" },
   { title: "SEO", to: "/admin/seo" },
 ];
 
