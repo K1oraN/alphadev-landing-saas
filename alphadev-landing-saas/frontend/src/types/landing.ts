@@ -1,10 +1,3 @@
-export type LandingContent = {
-  title: string;
-  description: string;
-  primaryColor: string;
-  whatsappUrl: string;
-};
-
 export type LandingSectionType =
   | "HERO"
   | "ABOUT"
@@ -15,7 +8,19 @@ export type LandingSectionType =
   | "FOOTER"
   | "CUSTOM";
 
-export type DemoLandingSection = {
+export type LandingImageType = "LOGO" | "HERO" | "GALLERY" | "TESTIMONIAL" | "OTHER";
+
+export type LandingTheme = {
+  primaryColor: string;
+  secondaryColor: string;
+  backgroundColor: string;
+  textColor: string;
+  buttonColor: string;
+  buttonTextColor: string;
+  fontFamily: string;
+};
+
+export type LandingSection = {
   id: string;
   type: LandingSectionType;
   title: string;
@@ -27,46 +32,42 @@ export type DemoLandingSection = {
   isActive: boolean;
 };
 
-export type DemoLandingImage = {
+export type LandingImage = {
   id: string;
+  sectionId: string | null;
   url: string;
   alt: string;
-  type: "LOGO" | "HERO" | "GALLERY" | "TESTIMONIAL" | "OTHER";
+  type: LandingImageType;
   order: number;
 };
 
-export type DemoLandingResponse = {
-  id: string;
-  name: string;
-  slug: string;
-  businessName: string;
-  description: string;
-  status: string;
-  plan: string;
-  theme: {
-    primaryColor: string;
-    secondaryColor: string;
-    backgroundColor: string;
-    textColor: string;
-    buttonColor: string;
-    buttonTextColor: string;
-    fontFamily: string;
-  } | null;
-  sections: DemoLandingSection[];
-  images: DemoLandingImage[];
-  whatsappConfig: {
-    phone: string;
-    defaultMessage: string;
-    buttonLabel: string;
-    isEnabled: boolean;
-  } | null;
-  seoConfig: {
-    metaTitle: string;
-    metaDescription: string;
-    ogTitle: string | null;
-    ogDescription: string | null;
-    ogImage: string | null;
-    canonicalUrl: string | null;
-  } | null;
-  leadsCount: number;
+export type WhatsAppConfig = {
+  phone: string;
+  defaultMessage: string;
+  buttonLabel: string;
+  isEnabled: boolean;
+};
+
+export type SeoConfig = {
+  metaTitle: string;
+  metaDescription: string;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: string | null;
+  canonicalUrl: string | null;
+};
+
+export type PublicLandingResponse = {
+  landing: {
+    id: string;
+    name: string;
+    slug: string;
+    businessName: string;
+    description: string;
+  };
+  theme: LandingTheme | null;
+  sections: LandingSection[];
+  images: LandingImage[];
+  whatsapp: WhatsAppConfig | null;
+  seo: SeoConfig | null;
 };

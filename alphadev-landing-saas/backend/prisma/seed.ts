@@ -63,17 +63,32 @@ async function main() {
     },
   });
 
+  const aboutSection = await prisma.landingSection.create({
+    data: {
+      landingPageId: landingPage.id,
+      type: "ABOUT",
+      title: "Sobre a barbearia",
+      subtitle: "Experiencia completa para o publico masculino",
+      content:
+        "Unimos tecnica, pontualidade e atendimento de alto padrao para entregar cortes, barba e acabamento com consistencia.",
+      order: 2,
+    },
+  });
+
+  const gallerySection = await prisma.landingSection.create({
+    data: {
+      landingPageId: landingPage.id,
+      type: "GALLERY",
+      title: "Galeria",
+      subtitle: "Ambiente, acabamento e estilo",
+      content:
+        "Veja um pouco da experiencia visual preparada para destacar o negocio na landing publica.",
+      order: 5,
+    },
+  });
+
   await prisma.landingSection.createMany({
     data: [
-      {
-        landingPageId: landingPage.id,
-        type: "ABOUT",
-        title: "Sobre a barbearia",
-        subtitle: "Experiencia completa para o publico masculino",
-        content:
-          "Unimos tecnica, pontualidade e atendimento de alto padrao para entregar cortes, barba e acabamento com consistencia.",
-        order: 2,
-      },
       {
         landingPageId: landingPage.id,
         type: "BENEFITS",
@@ -89,7 +104,7 @@ async function main() {
         title: "Depoimentos",
         subtitle: "Clientes que recomendam",
         content:
-          "Atendimento impecavel e corte muito bem feito.|Melhor experiencia de barbearia da regiao.",
+          "Atendimento impecavel e corte muito bem feito.|Melhor experiencia de barbearia da regiao.|Agendei pelo WhatsApp e fui atendido no horario combinado.",
         order: 4,
       },
       {
@@ -101,14 +116,14 @@ async function main() {
           "Clique no botao e agende seu horario pelo WhatsApp em poucos minutos.",
         buttonLabel: "Chamar no WhatsApp",
         buttonUrl: "https://wa.me/5511999999999",
-        order: 5,
+        order: 6,
       },
       {
         landingPageId: landingPage.id,
         type: "FOOTER",
         title: "Barbearia Demo AlphaDev",
         content: "Rua Demo, 123 - Centro. Atendimento de segunda a sabado.",
-        order: 6,
+        order: 7,
       },
     ],
   });
@@ -122,6 +137,38 @@ async function main() {
         alt: "Barbeiro fazendo acabamento em cliente",
         type: "HERO",
         order: 1,
+      },
+      {
+        landingPageId: landingPage.id,
+        sectionId: aboutSection.id,
+        url: "https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=1000&q=80",
+        alt: "Cadeira de barbearia em ambiente moderno",
+        type: "OTHER",
+        order: 2,
+      },
+      {
+        landingPageId: landingPage.id,
+        sectionId: gallerySection.id,
+        url: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=900&q=80",
+        alt: "Barbeiro aparando barba",
+        type: "GALLERY",
+        order: 1,
+      },
+      {
+        landingPageId: landingPage.id,
+        sectionId: gallerySection.id,
+        url: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=900&q=80",
+        alt: "Ferramentas de barbearia",
+        type: "GALLERY",
+        order: 2,
+      },
+      {
+        landingPageId: landingPage.id,
+        sectionId: gallerySection.id,
+        url: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=900&q=80",
+        alt: "Cliente recebendo corte de cabelo",
+        type: "GALLERY",
+        order: 3,
       },
       {
         landingPageId: landingPage.id,

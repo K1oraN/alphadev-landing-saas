@@ -90,6 +90,7 @@ Rotas para testar:
 ```text
 http://localhost:3333/health
 http://localhost:3333/api/demo/landing
+http://localhost:3333/api/public/landings/barbearia-demo
 ```
 
 ## Configurar o frontend
@@ -103,10 +104,25 @@ npm run dev
 Rotas:
 
 - `http://localhost:5173/`
+- `http://localhost:5173/site/barbearia-demo`
 - `http://localhost:5173/site/demo`
 - `http://localhost:5173/admin`
 
-A rota `/site/demo` tenta buscar dados reais em `http://localhost:3333/api/demo/landing`. Se a API falhar, a tela continua funcionando com dados mockados e mostra um aviso discreto.
+A rota publica principal e `/site/:slug`. Exemplo:
+
+```text
+http://localhost:5173/site/barbearia-demo
+```
+
+Ela busca os dados em:
+
+```text
+GET http://localhost:3333/api/public/landings/barbearia-demo
+```
+
+A rota `/site/demo` continua funcionando por compatibilidade e redireciona para `/site/barbearia-demo`.
+
+Em ambiente de desenvolvimento, se a API estiver offline, a landing publica exibe um fallback mockado discreto. Se o backend responder 404, a tela mostra uma mensagem amigavel de landing indisponivel.
 
 ## Scripts do backend
 
@@ -221,7 +237,12 @@ Implementado:
 - Seed demo da `Barbearia Demo AlphaDev`
 - Rota `GET /health`
 - Rota `GET /api/demo/landing`
-- Landing demo consumindo API com fallback mockado
+- Rota publica `GET /api/public/landings/:slug`
+- Landing publica dinamica em `/site/:slug`
+- Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
+- SEO basico no React com `react-helmet-async`
+- Botao flutuante de WhatsApp
+- Formulario visual de contato sem salvar leads ainda
 
 Ainda nao implementado nesta etapa:
 
