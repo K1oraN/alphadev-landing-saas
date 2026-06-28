@@ -257,6 +257,7 @@ export function PublicLanding() {
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
+        <meta name="theme-color" content={theme.primaryColor} />
         {data.seo?.ogTitle ? <meta property="og:title" content={data.seo.ogTitle} /> : null}
         {data.seo?.ogDescription ? (
           <meta property="og:description" content={data.seo.ogDescription} />
@@ -279,6 +280,7 @@ export function PublicLanding() {
               className="max-h-14 max-w-44 object-contain"
               src={getImageUrl(logo.url)}
               alt={logo.alt}
+              loading="eager"
             />
             <span className="text-sm font-semibold opacity-75">{data.landing.businessName}</span>
           </div>

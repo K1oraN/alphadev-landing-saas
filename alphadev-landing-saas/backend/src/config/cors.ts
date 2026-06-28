@@ -1,6 +1,7 @@
 import type { CorsOptions } from "cors";
+import { env } from "./env.js";
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = [env.FRONTEND_URL, env.FRONTEND_URL_ALT].filter(Boolean);
 
 export const corsOptions: CorsOptions = {
   origin(origin, callback) {

@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "../../hooks/useAuth";
 
 type AdminLayoutProps = {
@@ -31,6 +32,9 @@ export function AdminLayout({ children, title, description, publicSlug }: AdminL
 
   return (
     <div className="min-h-screen bg-alpha-dark text-slate-50">
+      <Helmet>
+        <title>{title} | AlphaDev Landing SaaS</title>
+      </Helmet>
       <header className="border-b border-white/10 bg-black/50">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-5 sm:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

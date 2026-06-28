@@ -33,6 +33,13 @@ const envSchema = z.object({
         "JWT_EXPIRES_IN nao encontrada. Adicione JWT_EXPIRES_IN ao .env baseado no .env.example.",
     })
     .min(1, "JWT_EXPIRES_IN nao pode ficar vazia."),
+  FRONTEND_URL: z
+    .string({
+      required_error:
+        "FRONTEND_URL nao encontrada. Adicione FRONTEND_URL ao .env baseado no .env.example.",
+    })
+    .url("FRONTEND_URL deve ser uma URL valida."),
+  FRONTEND_URL_ALT: z.string().url("FRONTEND_URL_ALT deve ser uma URL valida.").optional(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

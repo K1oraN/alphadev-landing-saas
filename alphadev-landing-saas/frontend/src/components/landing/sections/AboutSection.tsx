@@ -14,6 +14,7 @@ export function AboutSection({ section, images, theme }: LandingSectionProps) {
             className="aspect-[4/3] w-full rounded-lg object-cover"
             src={getImageUrl(sectionImage.url)}
             alt={sectionImage.alt}
+            loading="lazy"
           />
         ) : null}
 

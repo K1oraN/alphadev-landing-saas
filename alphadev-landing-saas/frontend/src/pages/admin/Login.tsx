@@ -1,5 +1,6 @@
 import { isAxiosError } from "axios";
 import { FormEvent, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -38,6 +39,9 @@ export function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(239,29,47,0.25),_transparent_35%),#07070a] px-4 py-10 text-slate-50">
+      <Helmet>
+        <title>Login Admin | AlphaDev Landing SaaS</title>
+      </Helmet>
       <div className="w-full max-w-md rounded-lg border border-white/10 bg-alpha-panel p-6 shadow-glow sm:p-8">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-alpha-red">
           AlphaDev Landing SaaS

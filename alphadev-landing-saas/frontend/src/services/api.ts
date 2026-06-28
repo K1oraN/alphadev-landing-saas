@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const AUTH_TOKEN_KEY = "alphadev_landing_token";
-export const API_BASE_URL = "http://localhost:3333";
+export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3333";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -19,5 +19,17 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error),
+  (error) => {
+    const isAdminRoute = window.location.pathname.startsWith("/admin");
+
+    if (error.response?.status === 401 && isAdminRoute) {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+
+      if (window.location.pathname !== "/admin/login") {
+        window.location.href = "/admin/login";
+      }
+    }
+
+    return Promise.reject(error);
+  },
 );

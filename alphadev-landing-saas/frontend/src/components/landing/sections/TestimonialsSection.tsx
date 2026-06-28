@@ -31,6 +31,7 @@ export function TestimonialsSection({ section, images, theme }: LandingSectionPr
                   className="mb-5 h-16 w-16 rounded-full object-cover"
                   src={getImageUrl(testimonialImages[index].url)}
                   alt={testimonialImages[index].alt}
+                  loading="lazy"
                 />
               ) : null}
               <p className="leading-7 opacity-80">"{testimonial}"</p>

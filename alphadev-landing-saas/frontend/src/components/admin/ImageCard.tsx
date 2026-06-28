@@ -37,7 +37,7 @@ export function ImageCard({ image, sections, onUpdate, onDelete }: ImageCardProp
 
   return (
     <article className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]">
-      <img className="aspect-video w-full object-cover" src={getImageUrl(image.url)} alt={image.alt} />
+      <img className="aspect-video w-full object-cover" src={getImageUrl(image.url)} alt={image.alt} loading="lazy" />
       <div className="space-y-4 p-4">
         <div>
           <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{image.type}</span>

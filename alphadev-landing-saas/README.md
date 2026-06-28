@@ -1,73 +1,35 @@
 # AlphaDev Landing SaaS
 
-Sistema SaaS para criacao e gestao de landing pages editaveis. Cada cliente tera uma landing publica e, em etapas futuras, um painel administrativo para alterar textos, cores, imagens, logo, botoes, contatos e conteudo.
+SaaS para criacao e gestao de landing pages editaveis. O dono da landing acessa um painel protegido para editar textos, secoes, cores, imagens, WhatsApp, SEO e visualizar leads recebidos.
 
-O projeto usa React + Vite no frontend e Node.js + Express + TypeScript no backend. Nao usa Next.js e nao usa Docker nesta etapa.
+O projeto usa React + Vite no frontend e Node.js + Express + TypeScript no backend. Nao usa Next.js, Docker, Cloudinary ou S3 nesta etapa.
 
 ## Stack
 
-### Frontend
+- Frontend: React, Vite, TypeScript, TailwindCSS, React Router DOM, Axios, react-helmet-async
+- Backend: Node.js, Express, TypeScript, Prisma ORM, PostgreSQL, Zod, JWT, Helmet, CORS, Multer
+- Upload: local em desenvolvimento
 
-- React com Vite
-- TypeScript
-- TailwindCSS
-- React Router DOM
-- Axios
+## Estrutura
 
-### Backend
-
-- Node.js
-- Express
-- TypeScript
-- Prisma ORM
-- PostgreSQL
-- Zod
-- CORS
-- Helmet
-- dotenv
-- Estrutura preparada para autenticacao futura com JWT
+```text
+alphadev-landing-saas/
+  backend/
+    prisma/
+    src/
+    uploads/
+  frontend/
+    src/
+```
 
 ## Portas
 
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:3333`
 
-## Scripts da raiz
+## Variaveis de ambiente
 
-A raiz tem um `package.json` apenas para facilitar comandos. Frontend e backend continuam separados.
-
-```bash
-npm install
-npm run install:all
-npm run dev:backend
-npm run dev:frontend
-npm run build:backend
-npm run build:frontend
-```
-
-## Criar banco PostgreSQL local
-
-Crie um banco chamado `alphadev_landing_saas` no PostgreSQL local. Pelo `psql`, um exemplo:
-
-```bash
-createdb -U postgres alphadev_landing_saas
-```
-
-Ou, dentro do `psql`:
-
-```sql
-CREATE DATABASE alphadev_landing_saas;
-```
-
-## Configurar o backend
-
-```bash
-cd alphadev-landing-saas/backend
-npm install
-copy .env.example .env
-```
-
-Confira se o `.env` ficou assim, ajustando usuario, senha, host ou porta se o seu PostgreSQL for diferente:
+Backend `backend/.env`:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/alphadev_landing_saas?schema=public"
@@ -75,95 +37,129 @@ PORT=3333
 NODE_ENV=development
 JWT_SECRET="alphadev_landing_saas_secret_dev"
 JWT_EXPIRES_IN="7d"
+FRONTEND_URL="http://localhost:5173"
+FRONTEND_URL_ALT="http://localhost:5174"
+```
+
+Frontend `frontend/.env`:
+
+```env
+VITE_API_URL="http://localhost:3333"
+```
+
+## Instalacao
+
+Pela raiz:
+
+```bash
+npm install
+npm run install:all
+```
+
+Ou separadamente:
+
+```bash
+cd alphadev-landing-saas/backend
+npm install
+
+cd ../frontend
+npm install
+```
+
+## Banco, Prisma e seed
+
+Crie o banco local:
+
+```bash
+createdb -U postgres alphadev_landing_saas
 ```
 
 Depois rode:
 
 ```bash
+cd alphadev-landing-saas/backend
 npm approve-scripts
 npx prisma generate
 npx prisma migrate dev --name init
 npm run seed
+```
+
+Prisma Studio:
+
+```bash
+npm run prisma:studio
+```
+
+## Rodar o projeto
+
+Backend:
+
+```bash
+cd alphadev-landing-saas/backend
 npm run dev
 ```
 
-Rotas para testar:
-
-```text
-http://localhost:3333/health
-http://localhost:3333/api/demo/landing
-http://localhost:3333/api/public/landings/barbearia-demo
-POST http://localhost:3333/api/public/landings/barbearia-demo/leads
-POST http://localhost:3333/api/auth/login
-GET http://localhost:3333/api/auth/me
-GET http://localhost:3333/api/admin/landing/me
-```
-
-## Configurar o frontend
+Frontend:
 
 ```bash
 cd alphadev-landing-saas/frontend
-npm install
 npm run dev
 ```
 
-Rotas:
+Build:
 
-- `http://localhost:5173/`
-- `http://localhost:5173/site/barbearia-demo`
-- `http://localhost:5173/site/demo`
-- `http://localhost:5173/admin/login`
-- `http://localhost:5173/admin`
-- `http://localhost:5173/admin/landing`
-- `http://localhost:5173/admin/sections`
-- `http://localhost:5173/admin/images`
-- `http://localhost:5173/admin/leads`
-- `http://localhost:5173/admin/appearance`
-- `http://localhost:5173/admin/whatsapp`
-- `http://localhost:5173/admin/seo`
+```bash
+cd alphadev-landing-saas/backend
+npm run build
+npm run start
 
-A rota publica principal e `/site/:slug`. Exemplo:
-
-```text
-http://localhost:5173/site/barbearia-demo
+cd ../frontend
+npm run build
+npm run preview
 ```
 
-Ela busca os dados em:
-
-```text
-GET http://localhost:3333/api/public/landings/barbearia-demo
-```
-
-A rota `/site/demo` continua funcionando por compatibilidade e redireciona para `/site/barbearia-demo`.
-
-Em ambiente de desenvolvimento, se a API estiver offline, a landing publica exibe um fallback mockado discreto. Se o backend responder 404, a tela mostra uma mensagem amigavel de landing indisponivel.
-
-## Login administrativo
-
-Depois de rodar o seed, use as credenciais demo:
+## Credenciais demo
 
 ```text
 Email: admin@demo.com
 Senha: 123456
 ```
 
-Fluxo:
+## Rotas frontend
+
+- `/`
+- `/site/barbearia-demo`
+- `/site/demo`
+- `/admin/login`
+- `/admin`
+- `/admin/landing`
+- `/admin/sections`
+- `/admin/appearance`
+- `/admin/images`
+- `/admin/whatsapp`
+- `/admin/seo`
+- `/admin/leads`
+
+## Endpoints principais
+
+Publicos:
 
 ```text
-http://localhost:5173/admin/login
+GET  /health
+GET  /health/db
+GET  /api/public/sitemap
+GET  /api/public/landings/:slug
+POST /api/public/landings/:slug/leads
 ```
 
-Ao autenticar, o usuario e redirecionado para:
+Auth:
 
 ```text
-http://localhost:5173/admin
+POST /api/auth/login
+GET  /api/auth/me
 ```
 
-O painel `/admin` e protegido por token JWT salvo no `localStorage` com a chave `alphadev_landing_token`. As rotas publicas `/`, `/site/demo` e `/site/:slug` continuam livres.
-
-## Endpoints admin
-
-Todas as rotas abaixo exigem `Authorization: Bearer TOKEN`.
+Admin landing:
 
 ```text
 GET    /api/admin/landing/me
@@ -176,226 +172,118 @@ POST   /api/admin/landing/sections
 PUT    /api/admin/landing/sections/:id
 DELETE /api/admin/landing/sections/:id
 PATCH  /api/admin/landing/sections/:id/toggle
+```
+
+Admin imagens:
+
+```text
 GET    /api/admin/images
 POST   /api/admin/images
 PATCH  /api/admin/images/:id
 DELETE /api/admin/images/:id
+```
+
+Admin leads:
+
+```text
 GET    /api/admin/leads
 GET    /api/admin/leads/:id
 DELETE /api/admin/leads/:id
 ```
 
-Fluxo de teste da edicao:
+## Upload local
 
-1. Rode o backend.
-2. Rode o frontend.
-3. Acesse `http://localhost:5173/admin/login`.
-4. Entre com `admin@demo.com` e `123456`.
-5. Edite informacoes em `/admin/landing`, `/admin/appearance`, `/admin/sections`, `/admin/whatsapp` ou `/admin/seo`.
-6. Acesse `http://localhost:5173/site/barbearia-demo` ou o slug atualizado e confirme as mudancas.
-
-## Leads
-
-O formulario publico da landing salva leads reais no banco:
-
-```text
-POST /api/public/landings/:slug/leads
-```
-
-Campos obrigatorios:
-
-- `name`
-- `phone`
-
-Campos opcionais:
-
-- `email`
-- `message`
-- `source`
-- `utmSource`
-- `utmMedium`
-- `utmCampaign`
-- `website` como honeypot invisivel
-
-Protecoes:
-
-- Rate limit de 10 envios por IP a cada 15 minutos
-- Honeypot: se `website` vier preenchido, retorna sucesso sem salvar
-- Apenas landings `PUBLISHED` recebem leads
-
-Fluxo de teste:
-
-1. Acesse `http://localhost:5173/site/barbearia-demo`.
-2. Preencha o formulario de contato.
-3. Envie e confira a mensagem de sucesso.
-4. Entre no painel admin.
-5. Acesse `http://localhost:5173/admin/leads`.
-6. Confira o lead, abra os detalhes, chame no WhatsApp ou exclua.
-
-## Upload local de imagens
-
-Nesta etapa, o upload e local, apenas para desenvolvimento. Os arquivos enviados ficam em:
+Arquivos enviados ficam em:
 
 ```text
 backend/uploads/landings
 ```
 
-E sao servidos publicamente pela API em:
+URL publica:
 
 ```text
 http://localhost:3333/uploads/landings/NOME_DO_ARQUIVO
 ```
 
-Regras atuais:
+Regras:
 
-- Formatos aceitos: JPG, PNG e WEBP
-- Limite: 5MB por imagem
-- Campo do arquivo no multipart: `image`
+- JPG, PNG e WEBP
+- Maximo de 5MB
+- Campo multipart: `image`
 - Tipos: `LOGO`, `HERO`, `GALLERY`, `TESTIMONIAL`, `OTHER`
 - `LOGO` e `HERO` mantem apenas uma imagem por tipo
-- `GALLERY`, `TESTIMONIAL` e `OTHER` permitem varias imagens
+- Uploads reais sao ignorados pelo Git
 
-Arquivos enviados nao devem ir para o GitHub. O `.gitignore` ignora `backend/uploads/*`, mantendo apenas os `.gitkeep` das pastas.
+Em producao, o storage local pode ser substituido por Cloudinary, S3 ou storage da hospedagem.
 
-No futuro, esse storage local pode migrar para Cloudinary, S3 ou storage da hospedagem.
+## Seguranca e limites
 
-## Scripts do backend
+- Helmet ativo
+- CORS restrito por `FRONTEND_URL` e `FRONTEND_URL_ALT`
+- JSON body limit de `1mb`
+- Rotas admin protegidas por JWT
+- Token ausente/invalido retorna 401
+- Usuario inativo/bloqueado retorna 403
+- `passwordHash` nunca e retornado
+- Rate limit de login: 5 tentativas a cada 15 minutos
+- Rate limit de leads: 10 envios a cada 15 minutos
+- Rate limit de upload: 20 uploads a cada 15 minutos
+- Honeypot `website` no formulario de leads
+- Upload limitado por mimetype e tamanho
 
-- `npm run dev`
-- `npm run build`
-- `npm run start`
-- `npm run prisma:generate`
-- `npm run prisma:migrate`
-- `npm run prisma:studio`
-- `npm run seed`
+## Checklist manual
 
-Para abrir o Prisma Studio:
+Backend:
 
-```bash
-cd alphadev-landing-saas/backend
-npm run prisma:studio
-```
+- `GET http://localhost:3333/health`
+- `GET http://localhost:3333/health/db`
+- Login em `POST /api/auth/login`
+- `GET /api/public/landings/barbearia-demo`
+- `POST /api/public/landings/barbearia-demo/leads`
+- `GET /api/admin/leads`
+- Upload em `POST /api/admin/images`
+- Editar landing em `PUT /api/admin/landing/main`
+- Editar tema em `PUT /api/admin/landing/theme`
+- Editar secoes em `/api/admin/landing/sections`
+- Editar WhatsApp em `PUT /api/admin/landing/whatsapp`
+- Editar SEO em `PUT /api/admin/landing/seo`
 
-## Scripts do frontend
+Frontend:
 
-- `npm run dev`
-- `npm run build`
-- `npm run preview`
+- `http://localhost:5173/`
+- `http://localhost:5173/site/barbearia-demo`
+- Formulario de leads
+- Botao WhatsApp
+- `http://localhost:5173/admin/login`
+- `http://localhost:5173/admin`
+- `http://localhost:5173/admin/landing`
+- `http://localhost:5173/admin/sections`
+- `http://localhost:5173/admin/appearance`
+- `http://localhost:5173/admin/images`
+- `http://localhost:5173/admin/whatsapp`
+- `http://localhost:5173/admin/seo`
+- `http://localhost:5173/admin/leads`
 
-## Erros comuns
+## Checklist antes do deploy
 
-### DATABASE_URL Required
+- Trocar `JWT_SECRET`
+- Configurar `FRONTEND_URL` de producao
+- Configurar `VITE_API_URL` de producao
+- Rodar migrations no banco de producao
+- Definir estrategia de storage para uploads
+- Revisar CORS
+- Revisar variaveis `.env`
+- Rodar `npm run build` no backend e frontend
 
-Esse erro acontece quando o backend nao encontrou a variavel `DATABASE_URL`.
+## Nao implementado nesta etapa
 
-Corrija criando o `.env` dentro da pasta `backend`:
-
-```bash
-cd alphadev-landing-saas/backend
-copy .env.example .env
-```
-
-Depois confira a conexao com o PostgreSQL e rode:
-
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-### npm install rodado na pasta errada
-
-Agora existe `package.json` na raiz, entao `npm install` nao deve mais quebrar. Mesmo assim, as dependencias reais ficam em `frontend` e `backend`.
-
-Para instalar tudo pela raiz:
-
-```bash
-cd alphadev-landing-saas
-npm run install:all
-```
-
-Ou instale separadamente:
-
-```bash
-cd alphadev-landing-saas/backend
-npm install
-
-cd ../frontend
-npm install
-```
-
-### src refspec main does not match any
-
-Esse erro costuma acontecer quando o commit foi feito na branch `master`, mas o push tentou enviar `main`.
-
-Use:
-
-```bash
-git branch -M main
-git push -u origin main
-```
-
-### remote origin already exists
-
-Se o remoto `origin` ja existe, nao rode `git remote add origin` de novo.
-
-Confira o remoto atual:
-
-```bash
-git remote -v
-```
-
-Se precisar trocar a URL:
-
-```bash
-git remote set-url origin URL_DO_REPOSITORIO
-git push -u origin main
-```
-
-### Alertas de CRLF no Windows
-
-Avisos sobre CRLF/LF geralmente nao impedem commit nem push. A raiz inclui `.gitattributes` com:
-
-```text
-* text=auto
-```
-
-Isso ajuda o Git a normalizar finais de linha entre Windows e outros ambientes.
-
-## Escopo atual
-
-Implementado:
-
-- Base React + Vite + TypeScript + TailwindCSS
-- Base Node.js + Express + TypeScript
-- Prisma configurado com PostgreSQL
-- Modelagem inicial do banco
-- Seed demo da `Barbearia Demo AlphaDev`
-- Rota `GET /health`
-- Rota `GET /api/demo/landing`
-- Rota publica `GET /api/public/landings/:slug`
-- Rota `POST /api/auth/login`
-- Rota protegida `GET /api/auth/me`
-- Landing publica dinamica em `/site/:slug`
-- Login admin em `/admin/login`
-- Painel admin protegido em `/admin`
-- Edicao admin de dados principais, tema, WhatsApp, SEO e secoes
-- Upload local e gerenciamento de imagens em `/admin/images`
-- Formulario publico salvando leads reais
-- Listagem, detalhes e exclusao de leads em `/admin/leads`
-- Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
-- SEO basico no React com `react-helmet-async`
-- Botao flutuante de WhatsApp
-- Formulario visual de contato sem salvar leads ainda
-- Logout do painel administrativo
-
-Ainda nao implementado nesta etapa:
-
-- Envio automatico de e-mail
-- Integracao real com WhatsApp API
-- Exportacao CSV
-- CRM avancado
-- Cadastro de novos usuarios
+- Deploy real
+- Docker
+- Pagamento
+- Cadastro publico de clientes
+- Multi-tenant avancado
 - Recuperacao de senha
-- Sistema de pagamento
-- Dashboard completo
-- Deploy
+- Envio de e-mail
+- Integracao real com WhatsApp API
+- Cloudinary
+- AWS S3

@@ -31,6 +31,7 @@ export function GallerySection({ section, images, theme }: LandingSectionProps) 
               className="aspect-[4/3] w-full rounded-lg object-cover"
               src={getImageUrl(image.url)}
               alt={image.alt}
+              loading="lazy"
             />
           ))}
         </div>

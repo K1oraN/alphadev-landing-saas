@@ -11,6 +11,7 @@ export function FooterSection({ section, images, theme }: LandingSectionProps) {
           className="mx-auto mb-4 max-h-14 max-w-48 object-contain"
           src={getImageUrl(logo.url)}
           alt={logo.alt}
+          loading="lazy"
         />
       ) : null}
       <strong className="block text-base opacity-100">{section.title}</strong>

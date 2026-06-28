@@ -59,6 +59,7 @@ export function HeroSection({ section, images, theme, whatsapp }: LandingSection
               className="aspect-[4/3] w-full rounded-lg object-cover"
               src={getImageUrl(heroImage.url)}
               alt={heroImage.alt}
+              loading="eager"
             />
           </div>
         ) : null}
