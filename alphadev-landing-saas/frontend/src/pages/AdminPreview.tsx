@@ -1,102 +1,99 @@
-import { useNavigate } from "react-router-dom";
-import { AdminFeatureCard } from "../components/admin/AdminFeatureCard";
-import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+import { AdminLayout } from "../components/admin/AdminLayout";
+import { useEffect, useState } from "react";
+import { getMyLanding } from "../services/adminLandingService";
+import type { AdminLanding } from "../types/adminLanding";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
-const features = [
-  {
-    title: "Minha Landing",
-    description: "Resumo visual da landing vinculada ao usuario autenticado.",
-  },
-  {
-    title: "Editar Textos",
-    description: "Modulo reservado para alterar titulos, descricoes, secoes e CTAs.",
-  },
-  {
-    title: "Alterar Cores",
-    description: "Area futura para configurar tema, cores de botoes e identidade visual.",
-  },
-  {
-    title: "Gerenciar Imagens",
-    description: "Espaco planejado para logo, hero, galeria e imagens de apoio.",
-  },
-  {
-    title: "Configurar WhatsApp",
-    description: "Configuracao futura de numero, mensagem padrao e botao flutuante.",
-  },
-  {
-    title: "Leads Recebidos",
-    description: "Preview da area que exibira contatos capturados pela landing.",
-  },
+const cards = [
+  { title: "Informacoes principais", to: "/admin/landing" },
+  { title: "Secoes", to: "/admin/sections" },
+  { title: "Aparencia", to: "/admin/appearance" },
+  { title: "WhatsApp", to: "/admin/whatsapp" },
+  { title: "SEO", to: "/admin/seo" },
 ];
 
 export function AdminPreview() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const [landing, setLanding] = useState<AdminLanding | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  function handleLogout() {
-    logout();
-    navigate("/admin/login", { replace: true });
-  }
+  useEffect(() => {
+    async function loadLanding() {
+      try {
+        setLoading(true);
+        setLanding(await getMyLanding());
+      } catch (requestError) {
+        setError(getErrorMessage(requestError, "Nao foi possivel carregar sua landing."));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadLanding();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-alpha-dark text-slate-50">
-      <header className="border-b border-white/10 bg-black/40">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-alpha-red">
-              Painel administrativo
-            </p>
-            <h1 className="mt-2 text-2xl font-black">AlphaDev Landing SaaS</h1>
-          </div>
+    <AdminLayout
+      title="Visao Geral"
+      description="Resumo da sua landing e atalhos para editar conteudo, aparencia, WhatsApp e SEO."
+      publicSlug={landing?.slug}
+    >
+      {loading ? <p className="text-slate-300">Carregando painel...</p> : null}
 
-          <button
-            className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:bg-white/10"
-            onClick={handleLogout}
-            type="button"
-          >
-            Sair
-          </button>
+      {error ? (
+        <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-red-100">
+          {error}
         </div>
-      </header>
+      ) : null}
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <section className="rounded-lg border border-red-500/20 bg-red-500/10 p-6 shadow-glow">
-          <p className="text-sm font-semibold text-red-100">
-            Ola, {user?.name ?? "usuario"}.
-          </p>
-          <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-            Seu painel protegido esta ativo.
-          </h2>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-red-50/80">
-            Esta etapa valida login, sessao com token JWT, rota protegida e logout.
-            A edicao real de conteudo sera implementada na proxima etapa.
-          </p>
-        </section>
-
-        <section className="mt-10">
-          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-alpha-red">
-                Modulos futuros
-              </p>
-              <h2 className="mt-2 text-2xl font-black">Gestao da landing</h2>
+      {landing ? (
+        <div className="space-y-8">
+          <section className="grid gap-4 lg:grid-cols-4">
+            <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-5 lg:col-span-2">
+              <p className="text-sm font-semibold text-red-100">Empresa</p>
+              <h2 className="mt-2 text-3xl font-black">{landing.businessName}</h2>
+              <p className="mt-3 text-sm leading-6 text-red-50/80">{landing.description}</p>
             </div>
-            <p className="text-sm text-slate-400">{user?.email}</p>
-          </div>
+            <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+              <p className="text-sm text-slate-400">Slug atual</p>
+              <strong className="mt-2 block break-all text-lg">/{landing.slug}</strong>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+              <p className="text-sm text-slate-400">Status</p>
+              <strong className="mt-2 block text-lg">{landing.status}</strong>
+            </div>
+          </section>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <AdminFeatureCard key={feature.title} {...feature} />
-            ))}
-          </div>
-        </section>
-
-        <div className="mt-10 rounded-lg border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-slate-300">
-          Login, permanencia autenticada e protecao do painel estao prontos. CRUD,
-          upload, dashboard completo e salvamento de leads ainda nao fazem parte desta
-          etapa.
+          <section>
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-2xl font-black">Editar landing</h2>
+              <a
+                className="inline-flex rounded-lg border border-red-500/40 px-4 py-2 text-sm font-semibold text-red-100 transition hover:bg-red-500/10"
+                href={`/site/${landing.slug}`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Abrir landing publica
+              </a>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {cards.map((card) => (
+                <Link
+                  className="rounded-lg border border-white/10 bg-white/[0.04] p-5 transition hover:border-red-500/40 hover:bg-red-500/10"
+                  key={card.to}
+                  to={card.to}
+                >
+                  <h3 className="font-bold">{card.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                    Abrir tela de edicao.
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
-      </main>
-    </div>
+      ) : null}
+    </AdminLayout>
   );
 }

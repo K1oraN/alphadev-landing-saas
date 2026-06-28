@@ -95,6 +95,7 @@ http://localhost:3333/api/demo/landing
 http://localhost:3333/api/public/landings/barbearia-demo
 POST http://localhost:3333/api/auth/login
 GET http://localhost:3333/api/auth/me
+GET http://localhost:3333/api/admin/landing/me
 ```
 
 ## Configurar o frontend
@@ -112,6 +113,11 @@ Rotas:
 - `http://localhost:5173/site/demo`
 - `http://localhost:5173/admin/login`
 - `http://localhost:5173/admin`
+- `http://localhost:5173/admin/landing`
+- `http://localhost:5173/admin/sections`
+- `http://localhost:5173/admin/appearance`
+- `http://localhost:5173/admin/whatsapp`
+- `http://localhost:5173/admin/seo`
 
 A rota publica principal e `/site/:slug`. Exemplo:
 
@@ -151,6 +157,32 @@ http://localhost:5173/admin
 ```
 
 O painel `/admin` e protegido por token JWT salvo no `localStorage` com a chave `alphadev_landing_token`. As rotas publicas `/`, `/site/demo` e `/site/:slug` continuam livres.
+
+## Endpoints admin
+
+Todas as rotas abaixo exigem `Authorization: Bearer TOKEN`.
+
+```text
+GET    /api/admin/landing/me
+PUT    /api/admin/landing/main
+PUT    /api/admin/landing/theme
+PUT    /api/admin/landing/whatsapp
+PUT    /api/admin/landing/seo
+GET    /api/admin/landing/sections
+POST   /api/admin/landing/sections
+PUT    /api/admin/landing/sections/:id
+DELETE /api/admin/landing/sections/:id
+PATCH  /api/admin/landing/sections/:id/toggle
+```
+
+Fluxo de teste da edicao:
+
+1. Rode o backend.
+2. Rode o frontend.
+3. Acesse `http://localhost:5173/admin/login`.
+4. Entre com `admin@demo.com` e `123456`.
+5. Edite informacoes em `/admin/landing`, `/admin/appearance`, `/admin/sections`, `/admin/whatsapp` ou `/admin/seo`.
+6. Acesse `http://localhost:5173/site/barbearia-demo` ou o slug atualizado e confirme as mudancas.
 
 ## Scripts do backend
 
@@ -271,6 +303,7 @@ Implementado:
 - Landing publica dinamica em `/site/:slug`
 - Login admin em `/admin/login`
 - Painel admin protegido em `/admin`
+- Edicao admin de dados principais, tema, WhatsApp, SEO e secoes
 - Renderizacao dinamica de secoes `HERO`, `ABOUT`, `BENEFITS`, `TESTIMONIALS`, `GALLERY`, `CTA`, `FOOTER` e `CUSTOM`
 - SEO basico no React com `react-helmet-async`
 - Botao flutuante de WhatsApp
@@ -279,8 +312,10 @@ Implementado:
 
 Ainda nao implementado nesta etapa:
 
-- Edicao real de landing
-- CRUD
 - Upload de imagens
+- Leads reais
+- Cadastro de novos usuarios
+- Recuperacao de senha
+- Sistema de pagamento
 - Dashboard completo
 - Deploy
