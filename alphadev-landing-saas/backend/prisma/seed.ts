@@ -8,12 +8,7 @@ async function main() {
 
   const owner = await prisma.user.upsert({
     where: { email: "admin@demo.com" },
-    update: {
-      name: "Dono Demo AlphaDev",
-      passwordHash,
-      role: "OWNER",
-      status: "ACTIVE",
-    },
+    update: {},
     create: {
       name: "Dono Demo AlphaDev",
       email: "admin@demo.com",
@@ -23,9 +18,14 @@ async function main() {
     },
   });
 
-  await prisma.landingPage.deleteMany({
+  const existingLandingPage = await prisma.landingPage.findUnique({
     where: { slug: "barbearia-demo" },
   });
+
+  if (existingLandingPage) {
+    console.log("Seed demo ja existe. Nenhum dado foi sobrescrito.");
+    return;
+  }
 
   const landingPage = await prisma.landingPage.create({
     data: {

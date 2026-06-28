@@ -11,7 +11,14 @@ const app = express();
 
 await ensureUploadDirectories();
 
-app.use(helmet());
+app.set("trust proxy", 1);
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  }),
+);
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(uploadsRoot));
@@ -20,4 +27,5 @@ app.use(errorHandler);
 
 app.listen(env.PORT, () => {
   console.log(`AlphaDev Landing SaaS API running on port ${env.PORT}`);
+  console.log(`Environment: ${env.NODE_ENV}`);
 });

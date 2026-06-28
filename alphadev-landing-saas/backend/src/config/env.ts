@@ -9,6 +9,8 @@ dotenv.config({
   path: resolve(currentDir, "../../.env"),
 });
 
+const emptyStringToUndefined = (value: unknown) => (value === "" ? undefined : value);
+
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().default(3333),
@@ -39,7 +41,14 @@ const envSchema = z.object({
         "FRONTEND_URL nao encontrada. Adicione FRONTEND_URL ao .env baseado no .env.example.",
     })
     .url("FRONTEND_URL deve ser uma URL valida."),
-  FRONTEND_URL_ALT: z.string().url("FRONTEND_URL_ALT deve ser uma URL valida.").optional(),
+  FRONTEND_URL_ALT: z.preprocess(
+    emptyStringToUndefined,
+    z.string().url("FRONTEND_URL_ALT deve ser uma URL valida.").optional(),
+  ),
+  BACKEND_PUBLIC_URL: z.preprocess(
+    emptyStringToUndefined,
+    z.string().url("BACKEND_PUBLIC_URL deve ser uma URL valida.").optional(),
+  ),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
