@@ -6,13 +6,13 @@ import type { AdminLanding } from "../types/adminLanding";
 import { getErrorMessage } from "../utils/getErrorMessage";
 
 const cards = [
-  { title: "Informacoes principais", to: "/admin/landing" },
-  { title: "Secoes", to: "/admin/sections" },
-  { title: "Gerenciar Imagens", to: "/admin/images" },
-  { title: "Aparencia", to: "/admin/appearance" },
-  { title: "WhatsApp", to: "/admin/whatsapp" },
-  { title: "Leads Recebidos", to: "/admin/leads" },
-  { title: "SEO", to: "/admin/seo" },
+  { title: "Editar conteudo da landing", to: "/admin/landing" },
+  { title: "Gerenciar secoes", to: "/admin/sections" },
+  { title: "Gerenciar imagens", to: "/admin/images" },
+  { title: "Personalizar aparencia", to: "/admin/appearance" },
+  { title: "Configurar WhatsApp", to: "/admin/whatsapp" },
+  { title: "Leads recebidos", to: "/admin/leads" },
+  { title: "Configurar SEO", to: "/admin/seo" },
 ];
 
 export function AdminPreview() {
@@ -38,7 +38,7 @@ export function AdminPreview() {
   return (
     <AdminLayout
       title="Visao Geral"
-      description="Resumo da sua landing e atalhos para editar conteudo, aparencia, WhatsApp e SEO."
+      description="Resumo da landing principal e atalhos para editar conteudo, aparencia, WhatsApp, SEO e leads."
       publicSlug={landing?.slug}
     >
       {loading ? <p className="text-slate-300">Carregando painel...</p> : null}
@@ -52,14 +52,14 @@ export function AdminPreview() {
       {landing ? (
         <div className="space-y-8">
           <section className="grid gap-4 lg:grid-cols-4">
-            <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-5 lg:col-span-2">
-              <p className="text-sm font-semibold text-red-100">Empresa</p>
+            <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-5 lg:col-span-2">
+              <p className="text-sm font-semibold text-blue-100">Empresa</p>
               <h2 className="mt-2 text-3xl font-black">{landing.businessName}</h2>
-              <p className="mt-3 text-sm leading-6 text-red-50/80">{landing.description}</p>
+              <p className="mt-3 text-sm leading-6 text-blue-50/80">{landing.description}</p>
             </div>
             <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
-              <p className="text-sm text-slate-400">Slug atual</p>
-              <strong className="mt-2 block break-all text-lg">/{landing.slug}</strong>
+              <p className="text-sm text-slate-400">Link publico</p>
+              <strong className="mt-2 block break-all text-lg">/</strong>
             </div>
             <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
               <p className="text-sm text-slate-400">Status</p>
@@ -71,18 +71,18 @@ export function AdminPreview() {
             <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-2xl font-black">Editar landing</h2>
               <a
-                className="inline-flex rounded-lg border border-red-500/40 px-4 py-2 text-sm font-semibold text-red-100 transition hover:bg-red-500/10"
-                href={`/site/${landing.slug}`}
+                className="inline-flex rounded-lg border border-blue-500/40 px-4 py-2 text-sm font-semibold text-blue-100 transition hover:bg-blue-500/10"
+                href="/"
                 rel="noreferrer"
                 target="_blank"
               >
-                Abrir landing publica
+                Ver landing publica
               </a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {cards.map((card) => (
                 <Link
-                  className="rounded-lg border border-white/10 bg-white/[0.04] p-5 transition hover:border-red-500/40 hover:bg-red-500/10"
+                  className="rounded-lg border border-white/10 bg-white/[0.04] p-5 transition hover:border-blue-500/40 hover:bg-blue-500/10"
                   key={card.to}
                   to={card.to}
                 >

@@ -9,7 +9,7 @@ type ButtonLinkProps = {
 
 export function ButtonLink({ children, to, variant = "primary" }: ButtonLinkProps) {
   const variants = {
-    primary: "bg-alpha-red text-white shadow-glow hover:bg-red-600",
+    primary: "bg-blue-600 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700",
     secondary: "border border-white/15 bg-white/5 text-white hover:bg-white/10",
   };
 

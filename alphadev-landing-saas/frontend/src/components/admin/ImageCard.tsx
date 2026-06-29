@@ -79,7 +79,7 @@ export function ImageCard({ image, sections, onUpdate, onDelete }: ImageCardProp
         <div className="flex flex-wrap gap-2">
           {isEditing ? (
             <>
-              <button className="rounded-lg bg-alpha-red px-3 py-2 text-sm font-bold" disabled={isSaving} onClick={handleSave} type="button">
+              <button className="rounded-lg bg-blue-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-blue-700" disabled={isSaving} onClick={handleSave} type="button">
                 {isSaving ? "Salvando..." : "Salvar"}
               </button>
               <button className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold" onClick={() => setIsEditing(false)} type="button">

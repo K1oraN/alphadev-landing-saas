@@ -33,14 +33,14 @@ export function AdminLayout({ children, title, description, publicSlug }: AdminL
   return (
     <div className="min-h-screen bg-alpha-dark text-slate-50">
       <Helmet>
-        <title>{title} | AlphaDev Landing SaaS</title>
+        <title>{title} | Painel da Landing</title>
       </Helmet>
       <header className="border-b border-white/10 bg-black/50">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-5 sm:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-alpha-red">
-                AlphaDev Landing SaaS
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-blue-400">
+                Painel da Landing
               </p>
               <h1 className="mt-2 text-2xl font-black">{title}</h1>
               {description ? (
@@ -68,7 +68,7 @@ export function AdminLayout({ children, title, description, publicSlug }: AdminL
               <NavLink
                 className={({ isActive }) =>
                   `rounded-lg px-3 py-2 text-sm font-semibold transition ${
-                    isActive ? "bg-alpha-red text-white" : "bg-white/5 text-slate-300 hover:bg-white/10"
+                    isActive ? "bg-blue-600 text-white" : "bg-white/5 text-slate-300 hover:bg-white/10"
                   }`
                 }
                 key={item.to}
@@ -79,8 +79,8 @@ export function AdminLayout({ children, title, description, publicSlug }: AdminL
             ))}
             {publicSlug ? (
               <a
-                className="rounded-lg border border-red-500/40 px-3 py-2 text-sm font-semibold text-red-100 transition hover:bg-red-500/10"
-                href={`/site/${publicSlug}`}
+                className="rounded-lg border border-blue-500/40 px-3 py-2 text-sm font-semibold text-blue-100 transition hover:bg-blue-500/10"
+                href="/"
                 rel="noreferrer"
                 target="_blank"
               >

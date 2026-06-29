@@ -14,7 +14,7 @@ export function Switch({ checked, onChange, label }: SwitchProps) {
       <span className="font-semibold text-slate-200">{label}</span>
       <span
         className={`flex h-7 w-12 items-center rounded-full p-1 transition ${
-          checked ? "bg-alpha-red" : "bg-white/20"
+          checked ? "bg-blue-600" : "bg-white/20"
         }`}
       >
         <span

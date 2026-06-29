@@ -8,6 +8,7 @@ export async function getPublicSitemap() {
     },
     select: {
       slug: true,
+      isMain: true,
       updatedAt: true,
       seoConfig: {
         select: {
@@ -24,6 +25,7 @@ export async function getPublicSitemap() {
     slug: landing.slug,
     updatedAt: landing.updatedAt,
     canonicalUrl:
-      landing.seoConfig?.canonicalUrl ?? `${env.FRONTEND_URL}/site/${landing.slug}`,
+      landing.seoConfig?.canonicalUrl ??
+      (landing.isMain ? env.FRONTEND_URL : `${env.FRONTEND_URL}/site/${landing.slug}`),
   }));
 }

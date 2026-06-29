@@ -9,7 +9,7 @@ export function LoadingButton({ isLoading, children, ...props }: LoadingButtonPr
   return (
     <button
       {...props}
-      className={`rounded-lg bg-alpha-red px-5 py-3 text-sm font-bold text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-70 ${props.className ?? ""}`}
+      className={`rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70 ${props.className ?? ""}`}
       disabled={isLoading || props.disabled}
     >
       {isLoading ? "Salvando..." : children}

@@ -68,7 +68,7 @@ export function AdminLandingMain() {
   return (
     <AdminLayout
       title="Minha Landing"
-      description="Edite dados principais, slug e status da landing publica."
+      description="Edite os dados principais da landing publica exibida em /."
       publicSlug={landing?.slug}
     >
       {loading ? <p className="text-slate-300">Carregando dados...</p> : null}
@@ -79,7 +79,7 @@ export function AdminLandingMain() {
         <FormField label="Nome da empresa">
           <Input value={form.businessName} onChange={(e) => setForm({ ...form, businessName: e.target.value })} />
         </FormField>
-        <FormField label="Slug" helper="Use letras, numeros e hifens. O backend normaliza automaticamente.">
+        <FormField label="Slug interno" helper="Mantido para compatibilidade com /site/:slug. A landing principal publica abre em /." >
           <Input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
         </FormField>
         <FormField label="Status">

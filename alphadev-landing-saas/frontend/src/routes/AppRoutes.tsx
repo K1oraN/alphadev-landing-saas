@@ -15,7 +15,6 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<PublicLanding />} />
-      <Route path="/site/demo" element={<Navigate to="/" replace />} />
       <Route path="/site/:slug" element={<PublicLanding />} />
       <Route path="/admin/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>

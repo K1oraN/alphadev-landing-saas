@@ -129,7 +129,7 @@ export function AdminLeads() {
             />
           </FormField>
           <div className="flex items-end">
-            <button className="w-full rounded-lg bg-alpha-red px-5 py-3 text-sm font-bold text-white" type="submit">
+            <button className="w-full rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700" type="submit">
               Filtrar
             </button>
           </div>
@@ -154,7 +154,7 @@ export function AdminLeads() {
               >
                 <div className="grid gap-4 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-start">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-alpha-red">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
                       Nome
                     </p>
                     <h2 className="mt-2 break-words text-lg font-black">{lead.name}</h2>
@@ -227,7 +227,7 @@ export function AdminLeads() {
             <section className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-white/10 bg-alpha-panel p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-alpha-red">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
                     Detalhes do lead
                   </p>
                   <h2 className="mt-2 text-2xl font-black">{selectedLead.name}</h2>

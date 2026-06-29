@@ -7,7 +7,7 @@ export function ProtectedRoute() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-alpha-dark px-4 text-center text-slate-50">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-alpha-red">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-400">
           Verificando acesso...
         </p>
       </div>

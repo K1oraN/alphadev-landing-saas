@@ -4,7 +4,7 @@ import { prisma } from "../lib/prisma.js";
 export function healthController(_request: Request, response: Response) {
   return response.status(200).json({
     status: "ok",
-    message: "AlphaDev Landing SaaS API online",
+    message: "Landing API online",
   });
 }
 

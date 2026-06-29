@@ -5,7 +5,6 @@ import type { LandingImageType, LandingSectionType } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const adminEmail = "admin@suaempresa.com";
-const legacyAdminEmail = "admin@demo.com";
 
 const defaultLanding = {
   name: "Landing Principal",
@@ -163,13 +162,14 @@ async function getOrCreateOwner(passwordHash: string) {
     });
   }
 
-  const legacyOwner = await prisma.user.findUnique({
-    where: { email: legacyAdminEmail },
+  const existingOwner = await prisma.user.findFirst({
+    where: { role: "OWNER" },
+    orderBy: { createdAt: "asc" },
   });
 
-  if (legacyOwner) {
+  if (existingOwner) {
     return prisma.user.update({
-      where: { id: legacyOwner.id },
+      where: { id: existingOwner.id },
       data: {
         name: "Administrador",
         email: adminEmail,
@@ -206,13 +206,14 @@ async function getOrCreateLanding(ownerId: string) {
     });
   }
 
-  const legacyLanding = await prisma.landingPage.findUnique({
-    where: { slug: "barbearia-demo" },
+  const mainLanding = await prisma.landingPage.findFirst({
+    where: { isMain: true },
+    orderBy: { createdAt: "asc" },
   });
 
-  if (legacyLanding) {
+  if (mainLanding) {
     return prisma.landingPage.update({
-      where: { id: legacyLanding.id },
+      where: { id: mainLanding.id },
       data: {
         ownerId,
         ...defaultLanding,

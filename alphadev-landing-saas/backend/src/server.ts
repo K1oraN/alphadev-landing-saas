@@ -26,6 +26,6 @@ app.use(routes);
 app.use(errorHandler);
 
 app.listen(env.PORT, () => {
-  console.log(`AlphaDev Landing SaaS API running on port ${env.PORT}`);
+  console.log(`Landing API running on port ${env.PORT}`);
   console.log(`Environment: ${env.NODE_ENV}`);
 });

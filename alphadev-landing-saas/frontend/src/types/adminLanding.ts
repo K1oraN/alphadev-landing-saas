@@ -16,6 +16,7 @@ export type AdminLanding = {
   description: string;
   status: LandingStatus;
   plan: "BASIC" | "PRO" | "PREMIUM";
+  isMain: boolean;
   createdAt: string;
   updatedAt: string;
   theme: (LandingTheme & { id: string }) | null;
