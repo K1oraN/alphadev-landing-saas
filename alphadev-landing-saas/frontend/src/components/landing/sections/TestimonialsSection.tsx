@@ -24,7 +24,7 @@ export function TestimonialsSection({ section, images, theme }: LandingSectionPr
           {testimonials.map((testimonial, index) => (
             <article
               key={testimonial}
-              className="rounded-lg border border-white/10 bg-white/[0.04] p-6"
+              className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               {testimonialImages[index] ? (
                 <img

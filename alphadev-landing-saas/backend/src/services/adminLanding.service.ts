@@ -3,11 +3,11 @@ import { HttpError } from "../lib/httpError.js";
 import { prisma } from "../lib/prisma.js";
 
 const defaultTheme = {
-  primaryColor: "#ef1d2f",
-  secondaryColor: "#111116",
-  backgroundColor: "#07070a",
-  textColor: "#f8fafc",
-  buttonColor: "#ef1d2f",
+  primaryColor: "#2563eb",
+  secondaryColor: "#f8fafc",
+  backgroundColor: "#ffffff",
+  textColor: "#0f172a",
+  buttonColor: "#2563eb",
   buttonTextColor: "#ffffff",
   fontFamily: "Inter",
 };
@@ -65,6 +65,7 @@ async function getOwnedLandingOrThrow(ownerId: string) {
     where: {
       ownerId,
     },
+    orderBy: [{ isMain: "desc" }, { createdAt: "asc" }],
   });
 
   if (!landing) {
@@ -79,6 +80,7 @@ export async function getMyLanding(ownerId: string) {
     where: {
       ownerId,
     },
+    orderBy: [{ isMain: "desc" }, { createdAt: "asc" }],
     select: {
       id: true,
       name: true,
@@ -87,6 +89,7 @@ export async function getMyLanding(ownerId: string) {
       description: true,
       status: true,
       plan: true,
+      isMain: true,
       createdAt: true,
       updatedAt: true,
       theme: true,
@@ -132,17 +135,32 @@ export async function updateLandingMain(ownerId: string, data: UpdateLandingMain
     );
   }
 
-  return prisma.landingPage.update({
-    where: {
-      id: landing.id,
-    },
-    data: {
-      name: data.name,
-      slug,
-      businessName: data.businessName,
-      description: data.description,
-      status: data.status,
-    },
+  return prisma.$transaction(async (tx) => {
+    await tx.landingPage.updateMany({
+      where: {
+        id: {
+          not: landing.id,
+        },
+        isMain: true,
+      },
+      data: {
+        isMain: false,
+      },
+    });
+
+    return tx.landingPage.update({
+      where: {
+        id: landing.id,
+      },
+      data: {
+        name: data.name,
+        slug,
+        businessName: data.businessName,
+        description: data.description,
+        status: data.status,
+        isMain: true,
+      },
+    });
   });
 }
 

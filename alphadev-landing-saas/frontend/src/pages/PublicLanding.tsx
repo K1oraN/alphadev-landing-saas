@@ -1,29 +1,32 @@
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LandingSectionRenderer } from "../components/landing/LandingSectionRenderer";
 import { WhatsAppFloatingButton } from "../components/landing/WhatsAppFloatingButton";
-import { getPublicLandingBySlug } from "../services/publicLandingService";
+import {
+  getMainPublicLanding,
+  getPublicLandingBySlug,
+} from "../services/publicLandingService";
 import type { PublicLandingResponse } from "../types/landing";
 import { getImageUrl } from "../utils/getImageUrl";
 import { getLandingTheme, getLandingThemeStyle } from "../utils/landingTheme";
 
 const fallbackPublicLanding: PublicLandingResponse = {
   landing: {
-    id: "mock-demo",
-    name: "Landing Barbearia Demo",
-    slug: "barbearia-demo",
-    businessName: "Barbearia Demo AlphaDev",
+    id: "fallback-main",
+    name: "Landing Principal",
+    slug: "principal",
+    businessName: "Sua Empresa",
     description:
-      "Barbearia premium com atendimento agendado, cortes modernos, barba alinhada e experiencia completa.",
+      "Uma landing page moderna, rapida e personalizavel para apresentar sua empresa, seus servicos e captar novos contatos.",
   },
   theme: {
-    primaryColor: "#ef1d2f",
-    secondaryColor: "#111116",
-    backgroundColor: "#07070a",
-    textColor: "#f8fafc",
-    buttonColor: "#ef1d2f",
+    primaryColor: "#2563eb",
+    secondaryColor: "#f8fafc",
+    backgroundColor: "#ffffff",
+    textColor: "#0f172a",
+    buttonColor: "#2563eb",
     buttonTextColor: "#ffffff",
     fontFamily: "Inter",
   },
@@ -31,22 +34,22 @@ const fallbackPublicLanding: PublicLandingResponse = {
     {
       id: "hero",
       type: "HERO",
-      title: "Corte, barba e estilo no mesmo lugar",
-      subtitle: "Barbearia Demo AlphaDev",
+      title: "Transforme visitantes em clientes",
+      subtitle: "Sua Empresa",
       content:
-        "Atendimento profissional, ambiente moderno e agendamento simples para voce cuidar do visual sem perder tempo.",
-      buttonLabel: "Agendar pelo WhatsApp",
-      buttonUrl: "https://wa.me/5511999999999",
+        "Uma pagina moderna, clara e objetiva para apresentar sua empresa, destacar seus diferenciais e receber contatos qualificados.",
+      buttonLabel: "Fale conosco",
+      buttonUrl: "#contato",
       order: 1,
       isActive: true,
     },
     {
       id: "about",
       type: "ABOUT",
-      title: "Sobre a barbearia",
-      subtitle: "Experiencia completa para o publico masculino",
+      title: "Sobre a empresa",
+      subtitle: "Apresente sua historia com clareza",
       content:
-        "Unimos tecnica, pontualidade e atendimento de alto padrao para entregar cortes, barba e acabamento com consistencia.",
+        "Use este espaco para contar quem voce e, o que sua empresa faz e por que seus clientes devem confiar no seu trabalho.",
       buttonLabel: null,
       buttonUrl: null,
       order: 2,
@@ -55,33 +58,33 @@ const fallbackPublicLanding: PublicLandingResponse = {
     {
       id: "benefits",
       type: "BENEFITS",
-      title: "Beneficios",
-      subtitle: "Por que escolher a Barbearia Demo AlphaDev",
+      title: "Por que escolher nossa solucao?",
+      subtitle: "Diferenciais que ajudam sua empresa a vender melhor",
       content:
-        "Agendamento rapido; profissionais experientes; ambiente confortavel; atendimento personalizado",
+        "Atendimento personalizado; apresentacao profissional; facil contato; experiencia otimizada em qualquer dispositivo.",
       buttonLabel: null,
       buttonUrl: null,
       order: 3,
       isActive: true,
     },
     {
-      id: "testimonials",
-      type: "TESTIMONIALS",
-      title: "Depoimentos",
-      subtitle: "Clientes que recomendam",
-      content:
-        "Atendimento impecavel e corte muito bem feito.|Melhor experiencia de barbearia da regiao.|Agendei pelo WhatsApp e fui atendido no horario combinado.",
+      id: "gallery",
+      type: "GALLERY",
+      title: "Galeria",
+      subtitle: "Mostre produtos, equipe, espacos ou resultados",
+      content: "Adicione imagens no painel para deixar sua landing mais visual e confiavel.",
       buttonLabel: null,
       buttonUrl: null,
       order: 4,
       isActive: true,
     },
     {
-      id: "gallery",
-      type: "GALLERY",
-      title: "Galeria",
-      subtitle: "Ambiente, acabamento e estilo",
-      content: "Imagens demonstrativas da landing publica.",
+      id: "testimonials",
+      type: "TESTIMONIALS",
+      title: "Depoimentos",
+      subtitle: "Confianca construida com bons resultados",
+      content:
+        "Atendimento claro, rapido e muito profissional.|A pagina facilitou o contato e deixou a apresentacao mais completa.|Experiencia simples, bonita e objetiva em qualquer dispositivo.",
       buttonLabel: null,
       buttonUrl: null,
       order: 5,
@@ -90,20 +93,21 @@ const fallbackPublicLanding: PublicLandingResponse = {
     {
       id: "cta",
       type: "CTA",
-      title: "Pronto para renovar seu estilo?",
-      subtitle: "Fale agora com a equipe",
-      content: "Clique no botao e agende seu horario pelo WhatsApp em poucos minutos.",
-      buttonLabel: "Chamar no WhatsApp",
-      buttonUrl: "https://wa.me/5511999999999",
+      title: "Pronto para comecar?",
+      subtitle: "Entre em contato e descubra como podemos ajudar.",
+      content:
+        "Preencha o formulario ou chame pelo WhatsApp. Sua equipe pode personalizar este texto pelo painel.",
+      buttonLabel: "Solicitar atendimento",
+      buttonUrl: "#contato",
       order: 6,
       isActive: true,
     },
     {
       id: "footer",
       type: "FOOTER",
-      title: "Barbearia Demo AlphaDev",
+      title: "Sua Empresa",
       subtitle: null,
-      content: "Rua Demo, 123 - Centro. Atendimento de segunda a sabado.",
+      content: "Uma landing moderna, clara e pronta para ser personalizada.",
       buttonLabel: null,
       buttonUrl: null,
       order: 7,
@@ -114,32 +118,40 @@ const fallbackPublicLanding: PublicLandingResponse = {
     {
       id: "hero-image",
       sectionId: "hero",
-      url: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1200&q=80",
-      alt: "Barbeiro fazendo acabamento em cliente",
+      url: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+      alt: "Equipe trabalhando em um escritorio moderno e claro",
       type: "HERO",
       order: 1,
     },
     {
+      id: "about-image",
+      sectionId: "about",
+      url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=80",
+      alt: "Reuniao profissional com pessoas colaborando",
+      type: "OTHER",
+      order: 2,
+    },
+    {
       id: "gallery-1",
       sectionId: "gallery",
-      url: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=900&q=80",
-      alt: "Barbeiro aparando barba",
+      url: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80",
+      alt: "Equipe analisando um projeto em notebooks",
       type: "GALLERY",
       order: 1,
     },
     {
       id: "gallery-2",
       sectionId: "gallery",
-      url: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=900&q=80",
-      alt: "Ferramentas de barbearia",
+      url: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=900&q=80",
+      alt: "Atendimento profissional em ambiente corporativo",
       type: "GALLERY",
       order: 2,
     },
     {
       id: "gallery-3",
       sectionId: "gallery",
-      url: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=900&q=80",
-      alt: "Cliente recebendo corte de cabelo",
+      url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=900&q=80",
+      alt: "Pessoas planejando ideias em uma mesa de trabalho",
       type: "GALLERY",
       order: 3,
     },
@@ -147,18 +159,18 @@ const fallbackPublicLanding: PublicLandingResponse = {
   whatsapp: {
     phone: "5511999999999",
     defaultMessage:
-      "Ola! Vim pela landing da Barbearia Demo AlphaDev e quero agendar um horario.",
-    buttonLabel: "Agendar pelo WhatsApp",
+      "Ola! Vim pela landing da Sua Empresa e gostaria de receber atendimento.",
+    buttonLabel: "Chamar no WhatsApp",
     isEnabled: true,
   },
   seo: {
-    metaTitle: "Barbearia Demo AlphaDev | Corte e barba com agendamento",
-    metaDescription: "Landing demo de barbearia criada para o AlphaDev Landing SaaS.",
-    ogTitle: "Barbearia Demo AlphaDev",
-    ogDescription: "Cortes modernos, barba alinhada e atendimento profissional.",
+    metaTitle: "Sua Empresa | Landing Page",
+    metaDescription: "Conheca nossa empresa, nossos servicos e fale conosco de forma rapida e simples.",
+    ogTitle: "Sua Empresa",
+    ogDescription: "Uma pagina moderna para apresentar servicos, diferenciais e canais de contato.",
     ogImage:
-      "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1200&q=80",
-    canonicalUrl: "https://barbearia-demo.alphadev.com.br",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+    canonicalUrl: null,
   },
 };
 
@@ -174,21 +186,22 @@ export function PublicLanding() {
 
   useEffect(() => {
     async function loadLanding() {
-      if (!slug) {
-        setPageState({
-          status: "not-found",
-          message: "Landing nao encontrada.",
-        });
-        return;
-      }
-
       setPageState({ status: "loading" });
 
       try {
-        const data = await getPublicLandingBySlug(slug);
+        const data = slug ? await getPublicLandingBySlug(slug) : await getMainPublicLanding();
         setPageState({ status: "ready", data, isFallback: false });
       } catch (error) {
         if (isAxiosError(error) && error.response?.status === 404) {
+          if (!slug) {
+            setPageState({
+              status: "ready",
+              data: fallbackPublicLanding,
+              isFallback: true,
+            });
+            return;
+          }
+
           setPageState({
             status: "not-found",
             message: "Landing publica nao encontrada ou indisponivel.",
@@ -217,8 +230,8 @@ export function PublicLanding() {
 
   if (pageState.status === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-alpha-dark px-4 text-center text-slate-50">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-alpha-red">
+      <div className="flex min-h-screen items-center justify-center bg-white px-4 text-center text-slate-900">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
           Carregando landing...
         </p>
       </div>
@@ -227,19 +240,13 @@ export function PublicLanding() {
 
   if (pageState.status === "not-found" || pageState.status === "error") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-alpha-dark px-4 text-center text-slate-50">
+      <div className="flex min-h-screen items-center justify-center bg-white px-4 text-center text-slate-900">
         <div className="max-w-md">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-alpha-red">
-            AlphaDev Landing SaaS
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-blue-600">
+            Landing publica
           </p>
           <h1 className="text-3xl font-black">Landing indisponivel</h1>
-          <p className="mt-4 text-slate-300">{pageState.message}</p>
-          <Link
-            className="mt-6 inline-flex rounded-lg bg-alpha-red px-5 py-3 text-sm font-bold text-white"
-            to="/"
-          >
-            Voltar ao inicio
-          </Link>
+          <p className="mt-4 text-slate-600">{pageState.message}</p>
         </div>
       </div>
     );
@@ -267,25 +274,45 @@ export function PublicLanding() {
       </Helmet>
 
       {isFallback ? (
-        <div className="border-b border-yellow-500/20 bg-yellow-500/10 px-4 py-3 text-center text-sm text-yellow-100">
-          Ambiente de desenvolvimento usando fallback mockado. Inicie o backend para
-          carregar dados reais pelo slug.
+        <div className="border-b border-blue-100 bg-blue-50 px-4 py-3 text-center text-sm text-blue-800">
+          Exibindo uma landing padrao enquanto a landing principal nao esta configurada no banco.
         </div>
       ) : null}
 
-      {logo ? (
-        <header className="border-b border-white/10 bg-black/25 px-4 py-4 sm:px-6">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-            <img
-              className="max-h-14 max-w-44 object-contain"
-              src={getImageUrl(logo.url)}
-              alt={logo.alt}
-              loading="eager"
-            />
-            <span className="text-sm font-semibold opacity-75">{data.landing.businessName}</span>
+      <header
+        className="sticky top-0 z-20 border-b border-slate-200/70 px-4 py-4 backdrop-blur sm:px-6"
+        style={{ backgroundColor: `${theme.backgroundColor}ee`, color: theme.textColor }}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <span
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-black text-white shadow-sm"
+              style={{ backgroundColor: theme.primaryColor }}
+            >
+              {data.landing.businessName.slice(0, 1).toUpperCase()}
+            </span>
+            {logo ? (
+              <img
+                className="max-h-12 max-w-40 object-contain"
+                src={getImageUrl(logo.url)}
+                alt={logo.alt}
+                loading="eager"
+              />
+            ) : (
+              <span className="truncate text-sm font-bold sm:text-base">
+                {data.landing.businessName}
+              </span>
+            )}
           </div>
-        </header>
-      ) : null}
+          <a
+            className="inline-flex shrink-0 items-center justify-center rounded-lg px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            href="#contato"
+            style={{ backgroundColor: theme.buttonColor, color: theme.buttonTextColor }}
+          >
+            Contato
+          </a>
+        </div>
+      </header>
 
       {data.sections.map((section) => (
         <LandingSectionRenderer

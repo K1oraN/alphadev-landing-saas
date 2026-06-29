@@ -28,6 +28,7 @@ model LandingPage {
   description    String
   status         LandingStatus    @default(DRAFT)
   plan           LandingPlan      @default(BASIC)
+  isMain         Boolean          @default(false)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   owner          User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -38,6 +39,8 @@ model LandingPage {
   whatsappConfig WhatsAppConfig?
   seoConfig      SeoConfig?
   subscription   Subscription?
+
+  @@index([isMain])
 }
 
 model LandingTheme {

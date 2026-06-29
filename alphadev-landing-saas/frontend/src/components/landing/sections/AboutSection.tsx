@@ -10,15 +10,17 @@ export function AboutSection({ section, images, theme }: LandingSectionProps) {
     <section className="px-4 py-16 sm:px-6 lg:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         {sectionImage ? (
-          <img
-            className="aspect-[4/3] w-full rounded-lg object-cover"
-            src={getImageUrl(sectionImage.url)}
-            alt={sectionImage.alt}
-            loading="lazy"
-          />
+          <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-xl shadow-slate-200/70">
+            <img
+              className="aspect-[4/3] w-full rounded-lg object-cover"
+              src={getImageUrl(sectionImage.url)}
+              alt={sectionImage.alt}
+              loading="lazy"
+            />
+          </div>
         ) : null}
 
-        <div>
+        <div className="rounded-lg bg-white/70 p-1">
           <p
             className="mb-3 text-xs font-bold uppercase tracking-[0.24em]"
             style={{ color: theme.primaryColor }}

@@ -20,7 +20,10 @@ export function BenefitsSection({ section, theme }: LandingSectionProps) {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
-            <article key={benefit} className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+            <article
+              key={benefit}
+              className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            >
               <span
                 className="mb-5 block h-2 w-12 rounded-full"
                 style={{ backgroundColor: theme.primaryColor }}

@@ -2,11 +2,11 @@ import type { CSSProperties } from "react";
 import type { LandingTheme } from "../types/landing";
 
 export const defaultLandingTheme: LandingTheme = {
-  primaryColor: "#ef1d2f",
-  secondaryColor: "#111116",
-  backgroundColor: "#07070a",
-  textColor: "#f8fafc",
-  buttonColor: "#ef1d2f",
+  primaryColor: "#2563eb",
+  secondaryColor: "#f8fafc",
+  backgroundColor: "#ffffff",
+  textColor: "#0f172a",
+  buttonColor: "#2563eb",
   buttonTextColor: "#ffffff",
   fontFamily: "Inter",
 };

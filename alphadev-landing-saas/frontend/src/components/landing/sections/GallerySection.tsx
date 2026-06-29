@@ -26,13 +26,17 @@ export function GallerySection({ section, images, theme }: LandingSectionProps) 
 
         <div className="grid gap-4 md:grid-cols-3">
           {galleryImages.map((image) => (
-            <img
+            <div
               key={image.id}
-              className="aspect-[4/3] w-full rounded-lg object-cover"
-              src={getImageUrl(image.url)}
-              alt={image.alt}
-              loading="lazy"
-            />
+              className="overflow-hidden rounded-lg border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              <img
+                className="aspect-[4/3] w-full rounded-lg object-cover"
+                src={getImageUrl(image.url)}
+                alt={image.alt}
+                loading="lazy"
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -1,6 +1,9 @@
 import rateLimit from "express-rate-limit";
 import { Router } from "express";
-import { createPublicLeadController } from "../controllers/publicLead.controller.js";
+import {
+  createMainPublicLeadController,
+  createPublicLeadController,
+} from "../controllers/publicLead.controller.js";
 
 export const publicLeadRoutes = Router();
 
@@ -14,6 +17,7 @@ const leadRateLimit = rateLimit({
   },
 });
 
+publicLeadRoutes.post("/api/public/landing/leads", leadRateLimit, createMainPublicLeadController);
 publicLeadRoutes.post(
   "/api/public/landings/:slug/leads",
   leadRateLimit,

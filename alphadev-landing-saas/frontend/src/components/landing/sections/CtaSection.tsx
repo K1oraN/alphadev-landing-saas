@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
-import { createLead } from "../../../services/publicLeadService";
+import { createLeadForMainLanding } from "../../../services/publicLeadService";
 import { getWhatsAppUrl } from "../../../utils/landingContent";
 import type { LandingSectionProps } from "./types";
 
@@ -13,7 +13,7 @@ const initialForm = {
   website: "",
 };
 
-export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSectionProps) {
+export function CtaSection({ section, theme, whatsapp }: LandingSectionProps) {
   const [searchParams] = useSearchParams();
   const [form, setForm] = useState(initialForm);
   const [feedback, setFeedback] = useState("");
@@ -36,7 +36,7 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
     setIsSubmitting(true);
 
     try {
-      await createLead(landingSlug, {
+      await createLeadForMainLanding({
         name: form.name,
         phone: form.phone,
         email: form.email,
@@ -57,7 +57,7 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
   }
 
   return (
-    <section className="px-4 py-16 sm:px-6 lg:py-20">
+    <section id="contato" className="px-4 py-16 sm:px-6 lg:py-20">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <p
@@ -72,9 +72,9 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
 
           <a
             href={whatsappUrl}
-            target="_blank"
+            target={whatsappUrl.startsWith("#") ? undefined : "_blank"}
             rel="noreferrer"
-            className="mt-8 inline-flex w-full items-center justify-center rounded-lg px-5 py-3 text-sm font-bold transition hover:brightness-110 sm:w-auto"
+            className="mt-8 inline-flex w-full items-center justify-center rounded-lg px-5 py-3 text-sm font-bold shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:brightness-110 sm:w-auto"
             style={{
               backgroundColor: theme.buttonColor,
               color: theme.buttonTextColor,
@@ -85,25 +85,25 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
         </div>
 
         <form
-          className="space-y-4 rounded-lg border border-white/10 bg-white/[0.04] p-5"
+          className="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70"
           onSubmit={handleSubmit}
         >
           <input
-            className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             onChange={(event) => setForm({ ...form, name: event.target.value })}
             placeholder="Nome"
             type="text"
             value={form.name}
           />
           <input
-            className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             onChange={(event) => setForm({ ...form, phone: event.target.value })}
             placeholder="Telefone"
             type="tel"
             value={form.phone}
           />
           <input
-            className="w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             onChange={(event) => setForm({ ...form, email: event.target.value })}
             placeholder="E-mail"
             type="email"
@@ -119,13 +119,13 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
             value={form.website}
           />
           <textarea
-            className="min-h-32 w-full rounded-lg border border-white/10 bg-black/25 px-4 py-3 outline-none placeholder:text-slate-500"
+            className="min-h-32 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             onChange={(event) => setForm({ ...form, message: event.target.value })}
             placeholder="Mensagem"
             value={form.message}
           />
           <button
-            className="w-full rounded-lg px-5 py-3 text-sm font-bold transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+            className="w-full rounded-lg px-5 py-3 text-sm font-bold transition hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
             disabled={isSubmitting}
             style={{
               backgroundColor: theme.buttonColor,
@@ -135,8 +135,8 @@ export function CtaSection({ section, theme, whatsapp, landingSlug }: LandingSec
           >
             {isSubmitting ? "Enviando..." : "Enviar mensagem"}
           </button>
-          {feedback ? <p className="text-sm text-green-200">{feedback}</p> : null}
-          {error ? <p className="text-sm text-red-200">{error}</p> : null}
+          {feedback ? <p className="text-sm text-green-700">{feedback}</p> : null}
+          {error ? <p className="text-sm text-red-700">{error}</p> : null}
         </form>
       </div>
     </section>

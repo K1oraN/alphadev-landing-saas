@@ -8,15 +8,14 @@ import { Login } from "../pages/admin/Login";
 import { AdminSections } from "../pages/admin/AdminSections";
 import { AdminSeo } from "../pages/admin/AdminSeo";
 import { AdminWhatsapp } from "../pages/admin/AdminWhatsapp";
-import { Home } from "../pages/Home";
 import { PublicLanding } from "../pages/PublicLanding";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/site/demo" element={<Navigate to="/site/barbearia-demo" replace />} />
+      <Route path="/" element={<PublicLanding />} />
+      <Route path="/site/demo" element={<Navigate to="/" replace />} />
       <Route path="/site/:slug" element={<PublicLanding />} />
       <Route path="/admin/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>
