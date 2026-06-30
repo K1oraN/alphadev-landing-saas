@@ -6,7 +6,7 @@ export function getImageUrl(url: string) {
   }
 
   if (url.startsWith("/")) {
-    return `${API_BASE_URL}${url}`;
+    return API_BASE_URL ? `${API_BASE_URL}${url}` : url;
   }
 
   return url;

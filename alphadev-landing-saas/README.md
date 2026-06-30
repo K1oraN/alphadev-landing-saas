@@ -1,8 +1,6 @@
 # AlphaDev Landing SaaS
 
-Aplicacao SaaS para uma landing page publica principal e um painel administrativo protegido por JWT.
-
-O visitante acessa somente a landing publica em `/`. O administrador acessa o painel para editar textos, secoes, imagens, cores, WhatsApp, SEO e leads.
+Aplicacao SaaS com uma landing page publica principal em `/` e um painel administrativo protegido por JWT para personalizar textos, imagens, cores, secoes, WhatsApp, SEO e leads.
 
 ## Stack
 
@@ -13,14 +11,49 @@ O visitante acessa somente a landing publica em `/`. O administrador acessa o pa
 
 Nao usa Next.js e nao usa Docker.
 
-## Rotas do Frontend
+## Rodando Localmente
 
-Rotas publicas:
+Backend:
 
-- `/` Landing publica principal
+```bash
+cd backend
+npm install
+npx prisma generate
+npm run seed
+npm run dev
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+URLs locais:
+
+- Landing publica: `http://localhost:5173`
+- Login admin: `http://localhost:5173/admin/login`
+- Backend: `http://localhost:3333`
+
+## Credenciais de Desenvolvimento
+
+As credenciais abaixo sao apenas para desenvolvimento local e sao criadas/atualizadas pelo seed. Elas nao aparecem na tela de login.
+
+```txt
+Email: admin@admin.com
+Senha: 123456
+```
+
+## Rotas
+
+Publica:
+
+- `/` landing publica principal
 - `/site/:slug` rota interna mantida para compatibilidade futura
 
-Rotas admin:
+Admin:
 
 - `/admin/login`
 - `/admin`
@@ -32,16 +65,19 @@ Rotas admin:
 - `/admin/seo`
 - `/admin/leads`
 
-Ao abrir `http://localhost:5173`, a aplicacao renderiza a landing publica principal. O painel fica disponivel manualmente em `http://localhost:5173/admin/login`.
-
 ## Endpoints Principais
 
 Publicos:
 
-- `GET /api/public/landing` retorna a landing principal publicada
-- `POST /api/public/landing/leads` salva um lead na landing principal publicada
-- `GET /api/public/landings/:slug` mantido para compatibilidade
-- `POST /api/public/landings/:slug/leads` mantido para compatibilidade
+- `GET /api/public/landing`
+- `POST /api/public/landing/leads`
+- `GET /api/public/landings/:slug`
+- `POST /api/public/landings/:slug/leads`
+
+Autenticacao:
+
+- `POST /api/auth/login`
+- `GET /api/auth/me`
 
 Admin:
 
@@ -59,70 +95,67 @@ Admin:
 - `GET /api/admin/leads/:id`
 - `DELETE /api/admin/leads/:id`
 
-## Landing Principal
-
-O backend busca a landing principal por `isMain = true` e `status = PUBLISHED`. Se nenhuma landing principal publicada existir, ele usa a primeira landing publicada como fallback interno.
-
-O seed cria ou atualiza uma landing padrao clara e neutra:
-
-- Nome interno: `Landing Principal`
-- Nome da empresa: `Sua Empresa`
-- Slug: `principal`
-- Status: `PUBLISHED`
-- `isMain: true`
-
-Tema padrao:
-
-- Fundo: `#ffffff`
-- Fundo secundario: `#f8fafc`
-- Texto principal: `#0f172a`
-- Texto secundario: `#475569`
-- Cor primaria/botao: `#2563eb`
-- Texto do botao: `#ffffff`
-
-## Seed
-
-No backend:
-
-```bash
-npm run seed
-```
-
-Credenciais iniciais:
-
-```txt
-Email: admin@suaempresa.com
-Senha: 123456
-```
-
-O seed e idempotente: atualiza usuario, landing, tema, secoes, imagens, WhatsApp, SEO e exemplos de leads sem duplicar a landing principal.
-
-## Desenvolvimento
+## Variaveis de Ambiente
 
 Backend:
 
-```bash
-cd backend
-npm install
-npm run prisma:generate
-npm run prisma:migrate
-npm run seed
-npm run dev
+```txt
+DATABASE_URL=
+PORT=3333
+NODE_ENV=development
+JWT_SECRET=
+JWT_EXPIRES_IN=7d
+FRONTEND_URL=http://localhost:5173
+FRONTEND_URL_ALT=
+BACKEND_PUBLIC_URL=http://localhost:3333
 ```
 
 Frontend:
 
-```bash
-cd frontend
-npm install
-npm run dev
+```txt
+VITE_API_URL="http://localhost:3333"
 ```
 
-URLs locais:
+Cenarios de hospedagem:
 
-- Frontend: `http://localhost:5173`
-- Admin: `http://localhost:5173/admin/login`
-- Backend: `http://localhost:3333`
+```txt
+# Local
+VITE_API_URL="http://localhost:3333"
+
+# Producao com mesmo dominio e proxy Nginx
+VITE_API_URL=""
+# ou
+VITE_API_URL="/api"
+
+# Producao com API em subdominio
+VITE_API_URL="https://api.seudominio.com.br"
+```
+
+O frontend usa `VITE_API_URL` como base da API. Se a variavel estiver vazia, as chamadas usam caminho relativo.
+
+## Landing Principal
+
+O endpoint `GET /api/public/landing` busca a landing principal publicada (`isMain = true` e `status = PUBLISHED`). Se nao existir registro no banco, o frontend exibe um fallback completo e profissional da empresa ficticia `Nova Essencia`.
+
+O seed cria/atualiza:
+
+- Nome interno: `Landing Principal`
+- Empresa: `Nova Essencia`
+- Slug: `principal`
+- Status: `PUBLISHED`
+- `isMain: true`
+- Usuario admin: `admin@admin.com`
+
+## Checklist de Teste
+
+- Abrir `/` e conferir a landing clara, moderna e responsiva.
+- Abrir `/admin/login` e confirmar que os campos nao vem preenchidos pelo codigo.
+- Fazer login com as credenciais locais do README.
+- Editar conteudo, cores, secoes, imagens, WhatsApp ou SEO no painel.
+- Voltar para `/` e conferir as alteracoes.
+- Enviar um lead pelo formulario publico.
+- Conferir o lead em `/admin/leads`.
+- Rodar `npm run build` no backend e no frontend.
 
 ## Build
 

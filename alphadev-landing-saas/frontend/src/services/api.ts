@@ -1,10 +1,8 @@
 import axios from "axios";
 
 export const AUTH_TOKEN_KEY = "alphadev_landing_token";
-export const API_BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:3333").replace(
-  /\/+$/,
-  "",
-);
+const rawApiUrl = (import.meta.env.VITE_API_URL ?? "").replace(/\/+$/, "");
+export const API_BASE_URL = rawApiUrl === "/api" ? "" : rawApiUrl;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,

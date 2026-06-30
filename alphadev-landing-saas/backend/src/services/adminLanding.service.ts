@@ -4,12 +4,12 @@ import { prisma } from "../lib/prisma.js";
 
 const defaultTheme = {
   primaryColor: "#2563eb",
-  secondaryColor: "#f8fafc",
-  backgroundColor: "#ffffff",
+  secondaryColor: "#4f46e5",
+  backgroundColor: "#f8fafc",
   textColor: "#0f172a",
   buttonColor: "#2563eb",
   buttonTextColor: "#ffffff",
-  fontFamily: "Inter",
+  fontFamily: "Inter, system-ui, sans-serif",
 };
 
 export type UpdateLandingMainData = {

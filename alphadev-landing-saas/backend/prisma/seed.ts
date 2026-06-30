@@ -4,26 +4,26 @@ import type { LandingImageType, LandingSectionType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const adminEmail = "admin@suaempresa.com";
+const adminEmail = "admin@admin.com";
 
 const defaultLanding = {
   name: "Landing Principal",
   slug: "principal",
-  businessName: "Sua Empresa",
+  businessName: "Nova Essencia",
   description:
-    "Uma landing page moderna, rapida e personalizavel para apresentar sua empresa, seus servicos e captar novos contatos.",
+    "Solucoes modernas e personalizadas para apresentar sua empresa com clareza, fortalecer sua presenca digital e facilitar o contato com novos clientes.",
   status: "PUBLISHED" as const,
   plan: "PRO" as const,
 };
 
 const defaultTheme = {
   primaryColor: "#2563eb",
-  secondaryColor: "#f8fafc",
-  backgroundColor: "#ffffff",
+  secondaryColor: "#4f46e5",
+  backgroundColor: "#f8fafc",
   textColor: "#0f172a",
   buttonColor: "#2563eb",
   buttonTextColor: "#ffffff",
-  fontFamily: "Inter",
+  fontFamily: "Inter, system-ui, sans-serif",
 };
 
 const defaultSections: Array<{
@@ -38,60 +38,67 @@ const defaultSections: Array<{
 }> = [
   {
     type: "HERO",
-    title: "Transforme visitantes em clientes",
-    subtitle: "Sua Empresa",
+    title: "Solucoes modernas para transformar sua presenca digital",
+    subtitle: "Nova Essencia",
     content:
-      "Uma pagina moderna, clara e objetiva para apresentar sua empresa, destacar seus diferenciais e receber contatos qualificados.",
-    buttonLabel: "Fale conosco",
+      "Apresente sua empresa com clareza, destaque seus diferenciais e receba contatos qualificados em uma pagina rapida, bonita e totalmente personalizavel.",
+    buttonLabel: "Solicitar atendimento",
     buttonUrl: "#contato",
     order: 1,
   },
   {
     type: "ABOUT",
-    title: "Sobre a empresa",
-    subtitle: "Apresente sua historia com clareza",
+    title: "Uma apresentacao profissional para sua empresa",
+    subtitle: "Clareza, confianca e conversao em uma unica experiencia",
     content:
-      "Use este espaco para contar quem voce e, o que sua empresa faz e por que seus clientes devem confiar no seu trabalho.",
+      "Organize suas informacoes, servicos, imagens e canais de contato em uma experiencia clara, moderna e pensada para converter visitantes em clientes.",
     order: 2,
   },
   {
     type: "BENEFITS",
-    title: "Por que escolher nossa solucao?",
-    subtitle: "Diferenciais que ajudam sua empresa a vender melhor",
+    title: "Tudo que sua landing precisa para vender melhor",
+    subtitle: "Recursos essenciais para uma presenca digital mais forte",
     content:
-      "Atendimento personalizado; apresentacao profissional; facil contato; experiencia otimizada em qualquer dispositivo.",
+      "Design responsivo; carregamento rapido; conteudo editavel; formulario de leads; botao de WhatsApp; SEO basico; galeria de imagens; painel administrativo.",
     order: 3,
+  },
+  {
+    type: "CUSTOM",
+    title: "Solucoes pensadas para o seu negocio",
+    subtitle: "Servicos que deixam sua pagina mais completa",
+    content:
+      "Estrategia personalizada|Pagina otimizada|Captacao de contatos|Integracao com WhatsApp|Gestao simples|Visual adaptavel",
+    order: 4,
   },
   {
     type: "GALLERY",
     title: "Galeria",
-    subtitle: "Mostre produtos, equipe, espacos ou resultados",
-    content: "Adicione imagens no painel para deixar sua landing mais visual e confiavel.",
-    order: 4,
+    subtitle: "Mostre produtos, equipe, ambientes ou resultados",
+    content: "Adicione imagens no painel para deixar sua landing mais visual, humana e confiavel.",
+    order: 5,
   },
   {
     type: "TESTIMONIALS",
     title: "Depoimentos",
-    subtitle: "Confiança construida com bons resultados",
+    subtitle: "Clientes que perceberam valor rapidamente",
     content:
-      "Atendimento claro, rapido e muito profissional.|A pagina facilitou o contato e deixou a apresentacao mais completa.|Experiencia simples, bonita e objetiva em qualquer dispositivo.",
-    order: 5,
-  },
-  {
-    type: "CTA",
-    title: "Pronto para comecar?",
-    subtitle: "Entre em contato e descubra como podemos ajudar.",
-    content:
-      "Preencha o formulario ou chame pelo WhatsApp. Sua equipe pode personalizar este texto pelo painel.",
-    buttonLabel: "Solicitar atendimento",
-    buttonUrl: "#contato",
+      "Mariana Costa, Gestora Comercial: A pagina ficou clara, bonita e facilitou muito o contato dos clientes com nossa equipe.|Rafael Mendes, Empreendedor: Conseguimos apresentar nossos servicos de forma mais profissional e recebemos contatos mais qualificados.|Camila Rocha, Consultora: O painel tornou simples atualizar textos, imagens e informacoes sem depender de alteracoes no codigo.",
     order: 6,
   },
   {
-    type: "FOOTER",
-    title: "Sua Empresa",
-    content: "Uma landing moderna, clara e pronta para ser personalizada.",
+    type: "CTA",
+    title: "Pronto para personalizar sua pagina?",
+    subtitle: "Atualize textos, cores, imagens e canais de contato diretamente pelo painel administrativo.",
+    content: "Preencha o formulario ou chame pelo WhatsApp para iniciar uma conversa.",
+    buttonLabel: "Entrar em contato",
+    buttonUrl: "#contato",
     order: 7,
+  },
+  {
+    type: "FOOTER",
+    title: "Nova Essencia",
+    content: "Solucoes modernas e personalizadas para apresentar sua empresa com clareza.",
+    order: 8,
   },
 ];
 
@@ -139,8 +146,8 @@ const defaultImages: Array<{
   },
   {
     type: "LOGO",
-    url: "https://placehold.co/240x80/ffffff/2563eb?text=Sua+Empresa",
-    alt: "Logo Sua Empresa",
+    url: "https://placehold.co/240x80/ffffff/2563eb?text=Nova+Essencia",
+    alt: "Logo Nova Essencia",
     order: 1,
   },
 ];
@@ -335,7 +342,7 @@ async function main() {
     update: {
       phone: "5511999999999",
       defaultMessage:
-        "Ola! Vim pela landing da Sua Empresa e gostaria de receber atendimento.",
+        "Ola! Vim pela landing da Nova Essencia e gostaria de receber atendimento.",
       buttonLabel: "Chamar no WhatsApp",
       isEnabled: true,
     },
@@ -343,7 +350,7 @@ async function main() {
       landingPageId: landingPage.id,
       phone: "5511999999999",
       defaultMessage:
-        "Ola! Vim pela landing da Sua Empresa e gostaria de receber atendimento.",
+        "Ola! Vim pela landing da Nova Essencia e gostaria de receber atendimento.",
       buttonLabel: "Chamar no WhatsApp",
       isEnabled: true,
     },
@@ -354,10 +361,10 @@ async function main() {
       landingPageId: landingPage.id,
     },
     update: {
-      metaTitle: "Sua Empresa | Landing Page",
+      metaTitle: "Nova Essencia | Solucoes Personalizadas",
       metaDescription:
-        "Conheca nossa empresa, nossos servicos e fale conosco de forma rapida e simples.",
-      ogTitle: "Sua Empresa",
+        "Conheca solucoes modernas para apresentar sua empresa com clareza e receber contatos qualificados.",
+      ogTitle: "Nova Essencia",
       ogDescription:
         "Uma pagina moderna para apresentar servicos, diferenciais e canais de contato.",
       ogImage:
@@ -366,10 +373,10 @@ async function main() {
     },
     create: {
       landingPageId: landingPage.id,
-      metaTitle: "Sua Empresa | Landing Page",
+      metaTitle: "Nova Essencia | Solucoes Personalizadas",
       metaDescription:
-        "Conheca nossa empresa, nossos servicos e fale conosco de forma rapida e simples.",
-      ogTitle: "Sua Empresa",
+        "Conheca solucoes modernas para apresentar sua empresa com clareza e receber contatos qualificados.",
+      ogTitle: "Nova Essencia",
       ogDescription:
         "Uma pagina moderna para apresentar servicos, diferenciais e canais de contato.",
       ogImage:
@@ -406,10 +413,10 @@ async function main() {
     data: [
       {
         landingPageId: landingPage.id,
-        name: "Cliente Exemplo",
-        email: "cliente@email.com",
+        name: "Mariana Costa",
+        email: "mariana@email.com",
         phone: "11988887777",
-        message: "Gostaria de saber mais sobre os servicos.",
+        message: "Gostaria de saber mais sobre as solucoes.",
         source: "seed-example",
         utmSource: "organico",
         utmMedium: "site",
@@ -417,7 +424,7 @@ async function main() {
       },
       {
         landingPageId: landingPage.id,
-        name: "Contato Comercial",
+        name: "Rafael Mendes",
         phone: "11977776666",
         message: "Quero receber atendimento pelo WhatsApp.",
         source: "seed-example",
