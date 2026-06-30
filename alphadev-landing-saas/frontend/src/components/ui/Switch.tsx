@@ -7,14 +7,14 @@ type SwitchProps = {
 export function Switch({ checked, onChange, label }: SwitchProps) {
   return (
     <button
-      className="flex w-full items-center justify-between gap-4 rounded-lg border border-white/10 bg-black/30 px-4 py-3 text-left text-sm"
+      className="flex w-full items-center justify-between gap-4 rounded-lg border border-slate-200 bg-white px-4 py-3 text-left text-sm shadow-sm"
       onClick={() => onChange(!checked)}
       type="button"
     >
-      <span className="font-semibold text-slate-200">{label}</span>
+      <span className="font-semibold text-slate-700">{label}</span>
       <span
         className={`flex h-7 w-12 items-center rounded-full p-1 transition ${
-          checked ? "bg-blue-600" : "bg-white/20"
+          checked ? "bg-blue-600" : "bg-slate-200"
         }`}
       >
         <span

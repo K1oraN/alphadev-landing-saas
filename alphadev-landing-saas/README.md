@@ -1,6 +1,8 @@
 # AlphaDev Landing SaaS
 
-Aplicacao SaaS com uma landing page publica principal em `/` e um painel administrativo protegido por JWT para personalizar textos, imagens, cores, secoes, WhatsApp, SEO e leads.
+Aplicacao SaaS white label com uma landing page publica principal em `/` e um painel administrativo protegido por JWT para personalizar textos, imagens, cores, secoes, WhatsApp, SEO, publicacao e leads.
+
+A marca publica padrao e apenas um fallback (`SuaMarca`). O visitante nao deve ver dados internos do projeto, rotas de demonstracao, credenciais ou informacoes tecnicas.
 
 ## Stack
 
@@ -35,6 +37,7 @@ URLs locais:
 
 - Landing publica: `http://localhost:5173`
 - Login admin: `http://localhost:5173/admin/login`
+- Painel admin: `http://localhost:5173/admin`
 - Backend: `http://localhost:3333`
 
 ## Credenciais de Desenvolvimento
@@ -52,18 +55,24 @@ Publica:
 
 - `/` landing publica principal
 - `/site/:slug` rota interna mantida para compatibilidade futura
+- `/site/demo` e `/site/barbearia-demo` redirecionam para `/`
 
 Admin:
 
 - `/admin/login`
 - `/admin`
 - `/admin/landing`
-- `/admin/sections`
 - `/admin/appearance`
+- `/admin/content`
 - `/admin/images`
-- `/admin/whatsapp`
+- `/admin/sections`
+- `/admin/testimonials`
+- `/admin/faq`
 - `/admin/seo`
+- `/admin/integrations`
+- `/admin/publication`
 - `/admin/leads`
+- `/admin/settings`
 
 ## Endpoints Principais
 
@@ -135,22 +144,46 @@ O frontend usa `VITE_API_URL` como base da API. Se a variavel estiver vazia, as 
 
 ## Landing Principal
 
-O endpoint `GET /api/public/landing` busca a landing principal publicada (`isMain = true` e `status = PUBLISHED`). Se nao existir registro no banco, o frontend exibe um fallback completo e profissional da empresa ficticia `Nova Essencia`.
+O endpoint `GET /api/public/landing` busca a landing principal publicada (`isMain = true` e `status = PUBLISHED`). Se nao existir registro no banco, o frontend exibe um fallback completo e profissional com a marca neutra `SuaMarca`.
+
+A landing publica em `/` usa dados do banco quando existem:
+
+- textos principais, secoes e CTAs;
+- tema e cores salvas;
+- logo, imagem hero, foto do profissional e galeria;
+- configuracao de WhatsApp;
+- SEO;
+- depoimentos e secoes configuradas.
+
+Quando algum dado ainda nao foi cadastrado, o frontend usa conteudo padrao bonito e placeholders elegantes, sem imagem quebrada.
 
 O seed cria/atualiza:
 
 - Nome interno: `Landing Principal`
-- Empresa: `Nova Essencia`
+- Empresa: `SuaMarca`
 - Slug: `principal`
 - Status: `PUBLISHED`
 - `isMain: true`
 - Usuario admin: `admin@admin.com`
+
+## Painel Administrativo
+
+O painel em `/admin` funciona como editor visual da landing, com sidebar clara, topbar, cards de edicao, abas e pre-visualizacao em tempo real. As rotas especificas continuam disponiveis para edicoes mais detalhadas:
+
+- `/admin/landing` para identidade e dados principais;
+- `/admin/appearance` para tema;
+- `/admin/images` para upload e gerenciamento de imagens;
+- `/admin/sections` para secoes;
+- `/admin/seo` para SEO;
+- `/admin/integrations` para WhatsApp;
+- `/admin/leads` para leads recebidos.
 
 ## Checklist de Teste
 
 - Abrir `/` e conferir a landing clara, moderna e responsiva.
 - Abrir `/admin/login` e confirmar que os campos nao vem preenchidos pelo codigo.
 - Fazer login com as credenciais locais do README.
+- Abrir `/admin` e conferir sidebar, topbar, cards de edicao e preview.
 - Editar conteudo, cores, secoes, imagens, WhatsApp ou SEO no painel.
 - Voltar para `/` e conferir as alteracoes.
 - Enviar um lead pelo formulario publico.

@@ -9,9 +9,9 @@ const adminEmail = "admin@admin.com";
 const defaultLanding = {
   name: "Landing Principal",
   slug: "principal",
-  businessName: "Nova Essencia",
+  businessName: "SuaMarca",
   description:
-    "Solucoes modernas e personalizadas para apresentar sua empresa com clareza, fortalecer sua presenca digital e facilitar o contato com novos clientes.",
+    "Atendimento de qualidade, com atencao aos detalhes e foco no que realmente importa: o seu bem-estar.",
   status: "PUBLISHED" as const,
   plan: "PRO" as const,
 };
@@ -38,36 +38,36 @@ const defaultSections: Array<{
 }> = [
   {
     type: "HERO",
-    title: "Solucoes modernas para transformar sua presenca digital",
-    subtitle: "Nova Essencia",
+    title: "Cuidado e atendimento profissional para voce",
+    subtitle: "",
     content:
-      "Apresente sua empresa com clareza, destaque seus diferenciais e receba contatos qualificados em uma pagina rapida, bonita e totalmente personalizavel.",
-    buttonLabel: "Solicitar atendimento",
+      "Atendimento de qualidade, com atencao aos detalhes e foco no que realmente importa: o seu bem-estar.",
+    buttonLabel: "Agendar agora",
     buttonUrl: "#contato",
     order: 1,
   },
   {
     type: "ABOUT",
-    title: "Uma apresentacao profissional para sua empresa",
-    subtitle: "Clareza, confianca e conversao em uma unica experiencia",
+    title: "Sobre o profissional",
+    subtitle: "",
     content:
-      "Organize suas informacoes, servicos, imagens e canais de contato em uma experiencia clara, moderna e pensada para converter visitantes em clientes.",
+      "Aqui, voce encontra um atendimento personalizado, com foco no seu bem-estar e resultados reais. Minha missao e oferecer o melhor cuidado para ajudar voce a alcancar seus objetivos com seguranca e confianca.",
     order: 2,
   },
   {
     type: "BENEFITS",
-    title: "Tudo que sua landing precisa para vender melhor",
-    subtitle: "Recursos essenciais para uma presenca digital mais forte",
+    title: "Diferenciais",
+    subtitle: "",
     content:
-      "Design responsivo; carregamento rapido; conteudo editavel; formulario de leads; botao de WhatsApp; SEO basico; galeria de imagens; painel administrativo.",
+      "Atendimento humanizado;Horarios flexiveis;Equipe qualificada;Agendamento facil",
     order: 3,
   },
   {
     type: "CUSTOM",
-    title: "Solucoes pensadas para o seu negocio",
-    subtitle: "Servicos que deixam sua pagina mais completa",
+    title: "Nossos servicos",
+    subtitle: "Solucoes personalizadas para atender o que voce precisa.",
     content:
-      "Estrategia personalizada|Pagina otimizada|Captacao de contatos|Integracao com WhatsApp|Gestao simples|Visual adaptavel",
+      "Consulta inicial|Acompanhamento|Avaliacao|Tratamentos|Planos|Orientacao personalizada",
     order: 4,
   },
   {
@@ -79,25 +79,25 @@ const defaultSections: Array<{
   },
   {
     type: "TESTIMONIALS",
-    title: "Depoimentos",
-    subtitle: "Clientes que perceberam valor rapidamente",
+    title: "O que nossos clientes dizem",
+    subtitle: "",
     content:
-      "Mariana Costa, Gestora Comercial: A pagina ficou clara, bonita e facilitou muito o contato dos clientes com nossa equipe.|Rafael Mendes, Empreendedor: Conseguimos apresentar nossos servicos de forma mais profissional e recebemos contatos mais qualificados.|Camila Rocha, Consultora: O painel tornou simples atualizar textos, imagens e informacoes sem depender de alteracoes no codigo.",
+      "Juliana Martins, Cliente: Excelente profissional! Me senti acolhida desde o primeiro atendimento. Resultados incriveis e muito alem do que eu esperava.|Ricardo Almeida, Cliente: Atendimento impecavel, sempre atenciosa e dedicada. Recomendo de olhos fechados!|Camila Souza, Cliente: Profissional incrivel e ambiente aconchegante. Me ajudou a conquistar meus objetivos com muita dedicacao.",
     order: 6,
   },
   {
     type: "CTA",
-    title: "Pronto para personalizar sua pagina?",
-    subtitle: "Atualize textos, cores, imagens e canais de contato diretamente pelo painel administrativo.",
-    content: "Preencha o formulario ou chame pelo WhatsApp para iniciar uma conversa.",
-    buttonLabel: "Entrar em contato",
+    title: "Pronto para agendar seu atendimento?",
+    subtitle: "De o primeiro passo para cuidar de voce. Estou aqui para ajudar!",
+    content: "",
+    buttonLabel: "Agendar agora",
     buttonUrl: "#contato",
     order: 7,
   },
   {
     type: "FOOTER",
-    title: "Nova Essencia",
-    content: "Solucoes modernas e personalizadas para apresentar sua empresa com clareza.",
+    title: "SuaMarca",
+    content: "Cuidado, atencao e resultados para o que mais importa: voce.",
     order: 8,
   },
 ];
@@ -146,8 +146,8 @@ const defaultImages: Array<{
   },
   {
     type: "LOGO",
-    url: "https://placehold.co/240x80/ffffff/2563eb?text=Nova+Essencia",
-    alt: "Logo Nova Essencia",
+    url: "https://placehold.co/240x80/ffffff/2563eb?text=SuaMarca",
+    alt: "Logo SuaMarca",
     order: 1,
   },
 ];
@@ -342,16 +342,16 @@ async function main() {
     update: {
       phone: "5511999999999",
       defaultMessage:
-        "Ola! Vim pela landing da Nova Essencia e gostaria de receber atendimento.",
-      buttonLabel: "Chamar no WhatsApp",
+        "Ola! Vim pela landing da SuaMarca e gostaria de agendar um atendimento.",
+      buttonLabel: "Agendar agora",
       isEnabled: true,
     },
     create: {
       landingPageId: landingPage.id,
       phone: "5511999999999",
       defaultMessage:
-        "Ola! Vim pela landing da Nova Essencia e gostaria de receber atendimento.",
-      buttonLabel: "Chamar no WhatsApp",
+        "Ola! Vim pela landing da SuaMarca e gostaria de agendar um atendimento.",
+      buttonLabel: "Agendar agora",
       isEnabled: true,
     },
   });
@@ -361,24 +361,24 @@ async function main() {
       landingPageId: landingPage.id,
     },
     update: {
-      metaTitle: "Nova Essencia | Solucoes Personalizadas",
+      metaTitle: "SuaMarca | Atendimento profissional",
       metaDescription:
-        "Conheca solucoes modernas para apresentar sua empresa com clareza e receber contatos qualificados.",
-      ogTitle: "Nova Essencia",
+        "Atendimento profissional, humanizado e personalizado para voce.",
+      ogTitle: "SuaMarca",
       ogDescription:
-        "Uma pagina moderna para apresentar servicos, diferenciais e canais de contato.",
+        "Agende seu atendimento de forma simples e segura.",
       ogImage:
         "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
       canonicalUrl: null,
     },
     create: {
       landingPageId: landingPage.id,
-      metaTitle: "Nova Essencia | Solucoes Personalizadas",
+      metaTitle: "SuaMarca | Atendimento profissional",
       metaDescription:
-        "Conheca solucoes modernas para apresentar sua empresa com clareza e receber contatos qualificados.",
-      ogTitle: "Nova Essencia",
+        "Atendimento profissional, humanizado e personalizado para voce.",
+      ogTitle: "SuaMarca",
       ogDescription:
-        "Uma pagina moderna para apresentar servicos, diferenciais e canais de contato.",
+        "Agende seu atendimento de forma simples e segura.",
       ogImage:
         "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
     },

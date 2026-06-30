@@ -35,12 +35,15 @@ export function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.18),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.16),_transparent_32%),#f8fafc] px-4 py-10 text-slate-900">
       <Helmet>
-        <title>Login Admin | Painel da Landing</title>
+        <title>Acesso administrativo | SuaMarca</title>
       </Helmet>
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-200/80 sm:p-8">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.26em] text-blue-600">
-          Painel da Landing
-        </p>
+        <div className="mb-6 flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-blue-600 text-white shadow-lg shadow-blue-600/20">
+            S
+          </span>
+          <span className="text-lg font-black text-slate-950">SuaMarca</span>
+        </div>
         <h1 className="text-3xl font-black tracking-tight text-slate-950">
           Acesso administrativo
         </h1>
